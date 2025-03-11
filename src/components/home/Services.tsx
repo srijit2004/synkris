@@ -78,7 +78,7 @@ const Services = () => {
     <section 
       id="services"
       ref={servicesRef}
-      className="page-section relative bg-synkris-light-gray opacity-0"
+      className="page-section relative bg-synkris-light-gray opacity-0 scroll-mt-20"
     >
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute bottom-1/4 left-0 w-96 h-96 bg-synkris-green/10 rounded-full blur-3xl" />

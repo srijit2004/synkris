@@ -1,12 +1,12 @@
-
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { Menu, X, ChevronDown } from 'lucide-react';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,7 +22,26 @@ const Navbar = () => {
     };
   }, [scrolled]);
 
+  useEffect(() => {
+    if (location.hash) {
+      setTimeout(() => {
+        const element = document.querySelector(location.hash);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    }
+  }, [location]);
+
   const toggleMenu = () => setIsOpen(!isOpen);
+
+  const handleNavLinkClick = (sectionId: string) => {
+    setIsOpen(false);
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <header
@@ -45,7 +64,7 @@ const Navbar = () => {
         </Link>
 
         <nav className="hidden md:flex items-center space-x-8">
-          <NavLinks desktop={true} />
+          <NavLinks desktop={true} handleNavLinkClick={handleNavLinkClick} />
         </nav>
 
         <div className="hidden md:flex items-center space-x-4">
@@ -81,7 +100,7 @@ const Navbar = () => {
         )}
       >
         <nav className="flex flex-col space-y-6">
-          <NavLinks desktop={false} onClick={() => setIsOpen(false)} />
+          <NavLinks desktop={false} onClick={() => setIsOpen(false)} handleNavLinkClick={handleNavLinkClick} />
           <div className="flex flex-col space-y-4 pt-4 border-t border-gray-100">
             <Link 
               to="/login" 
@@ -107,9 +126,10 @@ const Navbar = () => {
 interface NavLinksProps {
   desktop: boolean;
   onClick?: () => void;
+  handleNavLinkClick: (sectionId: string) => void;
 }
 
-const NavLinks = ({ desktop, onClick }: NavLinksProps) => {
+const NavLinks = ({ desktop, onClick, handleNavLinkClick }: NavLinksProps) => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
   const toggleDropdown = (key: string) => {
@@ -206,20 +226,18 @@ const NavLinks = ({ desktop, onClick }: NavLinksProps) => {
         items={dropdowns.solutions} 
         id="solutions" 
       />
-      <Link 
-        to="#services" 
-        className="text-synkris-black font-medium hover:text-synkris-green transition-colors"
-        onClick={handleLinkClick}
+      <button 
+        onClick={() => handleNavLinkClick('services')}
+        className="text-synkris-black font-medium hover:text-synkris-green transition-colors text-left"
       >
         Services
-      </Link>
-      <Link 
-        to="#pricing" 
-        className="text-synkris-black font-medium hover:text-synkris-green transition-colors"
-        onClick={handleLinkClick}
+      </button>
+      <button 
+        onClick={() => handleNavLinkClick('pricing')}
+        className="text-synkris-black font-medium hover:text-synkris-green transition-colors text-left"
       >
         Pricing
-      </Link>
+      </button>
       <NavDropdown 
         title="Resources" 
         items={dropdowns.resources} 
