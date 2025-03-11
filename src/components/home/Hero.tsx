@@ -1,7 +1,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, LineChart, ChefHat, ShoppingCart } from 'lucide-react';
+import { ArrowRight, LineChart, ChefHat, ShoppingCart, BrainCircuit, Building, Users } from 'lucide-react';
 
 const Hero = () => {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -86,6 +86,33 @@ const Hero = () => {
           <Link to="/solutions" className="cta-button-outline">
             Explore Solutions
           </Link>
+        </div>
+        
+        {/* Visual workflow mini-preview */}
+        <div className="mt-16 opacity-0 animate-slide-up" style={{ animationDelay: '1.1s' }}>
+          <div className="flex flex-wrap justify-center gap-2 md:gap-4">
+            {[
+              { icon: <Building className="h-5 w-5" />, label: "Setup" },
+              { icon: <Users className="h-5 w-5" />, label: "Staff" },
+              { icon: <BrainCircuit className="h-5 w-5" />, label: "AI Forecast" },
+              { icon: <ShoppingCart className="h-5 w-5" />, label: "Source" },
+              { icon: <ChefHat className="h-5 w-5" />, label: "Prepare" },
+              { icon: <LineChart className="h-5 w-5" />, label: "Scale" },
+            ].map((step, index) => (
+              <div key={index} className="flex items-center">
+                <div className="w-10 h-10 md:w-12 md:h-12 bg-synkris-green/10 rounded-full flex items-center justify-center text-synkris-green">
+                  {step.icon}
+                </div>
+                <span className="text-xs md:text-sm text-gray-600 ml-2">{step.label}</span>
+                {index < 5 && (
+                  <svg className="w-4 h-4 md:w-6 md:h-6 text-gray-300 mx-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                  </svg>
+                )}
+              </div>
+            ))}
+          </div>
+          <p className="text-xs text-gray-500 mt-2">Our end-to-end cloud kitchen solution</p>
         </div>
         
         {/* Feature icons */}
