@@ -207,7 +207,14 @@ const NavLinks = ({ desktop, onClick }: NavLinksProps) => {
         id="solutions" 
       />
       <Link 
-        to="/pricing" 
+        to="#services" 
+        className="text-synkris-black font-medium hover:text-synkris-green transition-colors"
+        onClick={handleLinkClick}
+      >
+        Services
+      </Link>
+      <Link 
+        to="#pricing" 
         className="text-synkris-black font-medium hover:text-synkris-green transition-colors"
         onClick={handleLinkClick}
       >
