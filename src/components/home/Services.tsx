@@ -1,6 +1,6 @@
 
 import React, { useEffect, useRef } from 'react';
-import { CheckCircle, Kitchen, Users, BrainCircuit, ShoppingCart, Utensils, BarChart3, ScrollText, Truck } from 'lucide-react';
+import { CheckCircle, ChefHat, Users, BrainCircuit, ShoppingCart, Utensils, BarChart3, ScrollText, Truck } from 'lucide-react';
 
 const Services = () => {
   const servicesRef = useRef<HTMLDivElement>(null);
@@ -28,7 +28,7 @@ const Services = () => {
 
   const services = [
     {
-      icon: <Kitchen className="h-8 w-8 text-synkris-green" />,
+      icon: <ChefHat className="h-8 w-8 text-synkris-green" />,
       title: "Cloud Kitchen Setup",
       description: "Rent fully equipped kitchens across metro cities with all necessary equipment and infrastructure.",
     },
