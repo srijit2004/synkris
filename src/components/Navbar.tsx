@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
@@ -69,6 +70,12 @@ const Navbar = () => {
 
         <div className="hidden md:flex items-center space-x-4">
           <Link 
+            to="/contact" 
+            className="text-synkris-black font-medium hover:text-synkris-green transition-colors"
+          >
+            Contact Us
+          </Link>
+          <Link 
             to="/login" 
             className="text-synkris-black font-medium hover:text-synkris-green transition-colors"
           >
@@ -102,6 +109,13 @@ const Navbar = () => {
         <nav className="flex flex-col space-y-6">
           <NavLinks desktop={false} onClick={() => setIsOpen(false)} handleNavLinkClick={handleNavLinkClick} />
           <div className="flex flex-col space-y-4 pt-4 border-t border-gray-100">
+            <Link 
+              to="/contact" 
+              className="text-synkris-black font-medium hover:text-synkris-green transition-colors"
+              onClick={() => setIsOpen(false)}
+            >
+              Contact Us
+            </Link>
             <Link 
               to="/login" 
               className="text-synkris-black font-medium hover:text-synkris-green transition-colors"

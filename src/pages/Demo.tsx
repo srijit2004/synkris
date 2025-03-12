@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Check, AlertCircle, Send } from "lucide-react";
+import { Check, AlertCircle, Send, Mail } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -42,13 +42,12 @@ const Demo = () => {
     try {
       // This would typically be a backend API call to send the email
       // For now, we'll simulate a successful submission
-      // In a real implementation, you'd use a service like EmailJS, Zapier, or a custom backend
       
       // Simulating API call
       await new Promise(resolve => setTimeout(resolve, 1500));
       
-      // Email would be sent to info.synkris@gmail.com here
-      console.log("Form submitted:", formData);
+      // In a real implementation, form would be submitted to info.synkris@gmail.com
+      console.log("Demo request submitted to info.synkris@gmail.com:", formData);
       
       // Show success message
       toast({
@@ -185,6 +184,14 @@ const Demo = () => {
                   placeholder="Tell us about your business and requirements..."
                   rows={4}
                 />
+              </div>
+              
+              <div className="py-2 px-4 bg-gray-50 rounded-lg border border-gray-100 flex items-start gap-3">
+                <Mail className="w-5 h-5 text-synkris-green mt-1" />
+                <div className="text-sm">
+                  <p>Your request will be sent directly to:</p>
+                  <p className="font-medium">info.synkris@gmail.com</p>
+                </div>
               </div>
               
               <Button
