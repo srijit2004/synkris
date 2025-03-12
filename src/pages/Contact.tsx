@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Mail, Send, MapPin, Phone } from "lucide-react";
@@ -6,77 +5,78 @@ import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-
 const Contact = () => {
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
     phone: "",
     subject: "",
-    message: "",
+    message: ""
   });
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const {
+      name,
+      value
+    } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Validate form
     if (!formData.fullName || !formData.email || !formData.message) {
       toast({
         title: "Missing information",
         description: "Please fill in all required fields",
-        variant: "destructive",
+        variant: "destructive"
       });
       return;
     }
-    
     setIsSubmitting(true);
-    
     try {
       // This would typically be a backend API call to send the email
       // For now, we'll simulate a successful submission
       // In a real implementation, you'd use a service like EmailJS, Zapier, or a custom backend
-      
+
       // Simulating API call
       await new Promise(resolve => setTimeout(resolve, 1500));
-      
+
       // Email would be sent to info.synkris@gmail.com here
       console.log("Contact form submitted:", formData);
-      
+
       // Show success message
       toast({
         title: "Message Sent!",
-        description: "Thank you for contacting us. We'll get back to you shortly.",
+        description: "Thank you for contacting us. We'll get back to you shortly."
       });
-      
+
       // Reset form
       setFormData({
         fullName: "",
         email: "",
         phone: "",
         subject: "",
-        message: "",
+        message: ""
       });
     } catch (error) {
       console.error("Error submitting form:", error);
       toast({
         title: "Submission failed",
         description: "Please try again later or email us directly.",
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setIsSubmitting(false);
     }
   };
-
-  return (
-    <div className="min-h-screen bg-white flex flex-col">
+  return <div className="min-h-screen bg-white flex flex-col">
       {/* Header */}
       <header className="bg-white py-4 px-6 shadow-sm flex items-center justify-between">
         <Link to="/" className="flex items-center cursor-pointer">
@@ -110,7 +110,7 @@ const Contact = () => {
                 <Phone className="w-5 h-5 text-synkris-green mt-1" />
                 <div>
                   <h3 className="font-medium">Call Us</h3>
-                  <p className="text-gray-600">+91 9876543210</p>
+                  <p className="text-gray-600">+91 8509502285</p>
                 </div>
               </div>
               
@@ -138,28 +138,14 @@ const Contact = () => {
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Full Name <span className="text-red-500">*</span>
                     </label>
-                    <Input
-                      type="text"
-                      name="fullName"
-                      value={formData.fullName}
-                      onChange={handleChange}
-                      placeholder="Your name"
-                      required
-                    />
+                    <Input type="text" name="fullName" value={formData.fullName} onChange={handleChange} placeholder="Your name" required />
                   </div>
                   
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Email Address <span className="text-red-500">*</span>
                     </label>
-                    <Input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder="you@example.com"
-                      required
-                    />
+                    <Input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="you@example.com" required />
                   </div>
                 </div>
                 
@@ -168,27 +154,14 @@ const Contact = () => {
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Phone Number
                     </label>
-                    <Input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      placeholder="Your contact number"
-                    />
+                    <Input type="tel" name="phone" value={formData.phone} onChange={handleChange} placeholder="Your contact number" />
                   </div>
                   
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Subject <span className="text-red-500">*</span>
                     </label>
-                    <Input
-                      type="text"
-                      name="subject"
-                      value={formData.subject}
-                      onChange={handleChange}
-                      placeholder="How can we help you?"
-                      required
-                    />
+                    <Input type="text" name="subject" value={formData.subject} onChange={handleChange} placeholder="How can we help you?" required />
                   </div>
                 </div>
                 
@@ -196,29 +169,14 @@ const Contact = () => {
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Message <span className="text-red-500">*</span>
                   </label>
-                  <Textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    placeholder="Please describe your inquiry..."
-                    rows={5}
-                    required
-                  />
+                  <Textarea name="message" value={formData.message} onChange={handleChange} placeholder="Please describe your inquiry..." rows={5} required />
                 </div>
                 
-                <Button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full py-3 bg-synkris-green text-synkris-black font-medium rounded-lg hover:brightness-110 transition-all flex items-center justify-center"
-                >
-                  {isSubmitting ? (
-                    <span>Sending...</span>
-                  ) : (
-                    <>
+                <Button type="submit" disabled={isSubmitting} className="w-full py-3 bg-synkris-green text-synkris-black font-medium rounded-lg hover:brightness-110 transition-all flex items-center justify-center">
+                  {isSubmitting ? <span>Sending...</span> : <>
                       <Send className="h-4 w-4 mr-2" />
                       <span>Send Message</span>
-                    </>
-                  )}
+                    </>}
                 </Button>
                 
                 <p className="text-center text-sm text-gray-600">
@@ -232,8 +190,6 @@ const Contact = () => {
           </div>
         </div>
       </main>
-    </div>
-  );
+    </div>;
 };
-
 export default Contact;
