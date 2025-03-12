@@ -1,6 +1,6 @@
 
 import React from "react";
-import { BarChart3, Users, CreditCard, AlertCircle } from "lucide-react";
+import { BarChart3, Users, CreditCard, AlertCircle, LayoutDashboard } from "lucide-react";
 import AdminLayout from "@/components/admin/AdminLayout";
 import {
   Card,
