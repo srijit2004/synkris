@@ -243,13 +243,6 @@ const NavLinks = ({ desktop, onClick, handleNavLinkClick }: NavLinksProps) => {
         items={dropdowns.resources} 
         id="resources" 
       />
-      <Link 
-        to="/investors" 
-        className="text-synkris-black font-medium hover:text-synkris-green transition-colors"
-        onClick={handleLinkClick}
-      >
-        Investors
-      </Link>
     </>
   );
 };
