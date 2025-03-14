@@ -53,12 +53,12 @@ const Contact = () => {
         to_email: "info.synkris@gmail.com"
       };
 
-      // Send email using EmailJS
+      // Send email using EmailJS with your public key
       await emailjs.send(
         "service_synkris", // Use your EmailJS service ID
         "template_synkris", // Use your EmailJS template ID
         templateParams,
-        "your_public_key" // Your EmailJS public key
+        "0-cRGh0QYH2tdp9z1" // Your provided EmailJS public key
       );
 
       // Console log for debugging
