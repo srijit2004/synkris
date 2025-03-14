@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Mail, Send, MapPin, Phone } from "lucide-react";
@@ -5,10 +6,10 @@ import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import emailjs from "@emailjs/browser";
+
 const Contact = () => {
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     fullName: "",
@@ -17,16 +18,15 @@ const Contact = () => {
     subject: "",
     message: ""
   });
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const {
-      name,
-      value
-    } = e.target;
+    const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
   };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -39,16 +39,29 @@ const Contact = () => {
       });
       return;
     }
+
     setIsSubmitting(true);
+    
     try {
-      // This would typically be a backend API call to send the email
-      // For now, we'll simulate a successful submission
-      // In a real implementation, you'd use a service like EmailJS, Zapier, or a custom backend
+      // Configure EmailJS with the service and template IDs
+      const templateParams = {
+        from_name: formData.fullName,
+        reply_to: formData.email,
+        phone: formData.phone,
+        subject: formData.subject,
+        message: formData.message,
+        to_email: "info.synkris@gmail.com"
+      };
 
-      // Simulating API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Send email using EmailJS
+      await emailjs.send(
+        "service_synkris", // Use your EmailJS service ID
+        "template_synkris", // Use your EmailJS template ID
+        templateParams,
+        "your_public_key" // Your EmailJS public key
+      );
 
-      // Email would be sent to info.synkris@gmail.com here
+      // Console log for debugging
       console.log("Contact form submitted:", formData);
 
       // Show success message
@@ -69,14 +82,16 @@ const Contact = () => {
       console.error("Error submitting form:", error);
       toast({
         title: "Submission failed",
-        description: "Please try again later or email us directly.",
+        description: "Please try again later or email us directly at info.synkris@gmail.com",
         variant: "destructive"
       });
     } finally {
       setIsSubmitting(false);
     }
   };
-  return <div className="min-h-screen bg-white flex flex-col">
+
+  return (
+    <div className="min-h-screen bg-white flex flex-col">
       {/* Header */}
       <header className="bg-white py-4 px-6 shadow-sm flex items-center justify-between">
         <Link to="/" className="flex items-center cursor-pointer">
@@ -87,10 +102,10 @@ const Contact = () => {
       </header>
       
       {/* Main Content */}
-      <main className="flex-grow flex items-center justify-center px-4 py-12">
-        <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-5 gap-8">
+      <main className="flex-grow px-4 py-12">
+        <div className="w-full max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-8">
           {/* Contact Info */}
-          <div className="md:col-span-2 bg-gray-50 p-8 rounded-2xl">
+          <div className="md:col-span-2 bg-gray-50 p-6 md:p-8 rounded-2xl">
             <h2 className="text-2xl font-bold mb-6">Get in Touch</h2>
             <p className="text-gray-600 mb-8">
               Have questions about our platform? Want to schedule a demo? 
@@ -99,15 +114,15 @@ const Contact = () => {
             
             <div className="space-y-6">
               <div className="flex items-start space-x-3">
-                <Mail className="w-5 h-5 text-synkris-green mt-1" />
+                <Mail className="w-5 h-5 text-synkris-green mt-1 flex-shrink-0" />
                 <div>
                   <h3 className="font-medium">Email Us</h3>
-                  <p className="text-gray-600">info.synkris@gmail.com</p>
+                  <p className="text-gray-600 break-words">info.synkris@gmail.com</p>
                 </div>
               </div>
               
               <div className="flex items-start space-x-3">
-                <Phone className="w-5 h-5 text-synkris-green mt-1" />
+                <Phone className="w-5 h-5 text-synkris-green mt-1 flex-shrink-0" />
                 <div>
                   <h3 className="font-medium">Call Us</h3>
                   <p className="text-gray-600">+91 8509502285</p>
@@ -115,7 +130,7 @@ const Contact = () => {
               </div>
               
               <div className="flex items-start space-x-3">
-                <MapPin className="w-5 h-5 text-synkris-green mt-1" />
+                <MapPin className="w-5 h-5 text-synkris-green mt-1 flex-shrink-0" />
                 <div>
                   <h3 className="font-medium">Visit Us</h3>
                   <p className="text-gray-600">
@@ -129,7 +144,7 @@ const Contact = () => {
           
           {/* Contact Form */}
           <div className="md:col-span-3">
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8">
               <h2 className="text-2xl font-bold mb-6">Send Us a Message</h2>
               
               <form onSubmit={handleSubmit} className="space-y-6">
@@ -190,6 +205,8 @@ const Contact = () => {
           </div>
         </div>
       </main>
-    </div>;
+    </div>
+  );
 };
+
 export default Contact;

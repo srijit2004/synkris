@@ -1,11 +1,14 @@
+
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { Menu, X, ChevronDown } from 'lucide-react';
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+
   useEffect(() => {
     const handleScroll = () => {
       const isScrolled = window.scrollY > 10;
@@ -13,11 +16,13 @@ const Navbar = () => {
         setScrolled(isScrolled);
       }
     };
+
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, [scrolled]);
+
   useEffect(() => {
     if (location.hash) {
       setTimeout(() => {
@@ -30,7 +35,9 @@ const Navbar = () => {
       }, 100);
     }
   }, [location]);
+
   const toggleMenu = () => setIsOpen(!isOpen);
+
   const handleNavLinkClick = (sectionId: string) => {
     setIsOpen(false);
     const element = document.getElementById(sectionId);
@@ -40,10 +47,17 @@ const Navbar = () => {
       });
     }
   };
-  return <header className={cn('fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-6 md:px-10 py-4', scrolled ? 'bg-white/80 backdrop-blur-md shadow-md' : 'bg-transparent')}>
+
+  return (
+    <header 
+      className={cn(
+        'fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-4 sm:px-6 md:px-10 py-4', 
+        scrolled ? 'bg-white/80 backdrop-blur-md shadow-md' : 'bg-transparent'
+      )}
+    >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <Link to="/" className="flex items-center space-x-2" onClick={() => setIsOpen(false)}>
-          <span className="text-synkris-black font-bold py-0 my-0 mx-0 px-0 text-5xl">
+          <span className="text-synkris-black font-bold py-0 my-0 mx-0 px-0 text-3xl sm:text-4xl md:text-5xl">
             Syn<span className="text-synkris-green">kris</span>
           </span>
         </Link>
@@ -70,7 +84,12 @@ const Navbar = () => {
       </div>
 
       {/* Mobile menu */}
-      <div className={cn('fixed inset-0 bg-white z-40 pt-20 px-6 md:hidden transition-transform duration-300 ease-in-out', isOpen ? 'translate-x-0' : 'translate-x-full')}>
+      <div 
+        className={cn(
+          'fixed inset-0 bg-white z-40 pt-20 px-6 md:hidden overflow-y-auto transition-transform duration-300 ease-in-out', 
+          isOpen ? 'translate-x-0' : 'translate-x-full'
+        )}
+      >
         <nav className="flex flex-col space-y-6">
           <NavLinks desktop={false} onClick={() => setIsOpen(false)} handleNavLinkClick={handleNavLinkClick} />
           <div className="flex flex-col space-y-4 pt-4 border-t border-gray-100">
@@ -86,94 +105,109 @@ const Navbar = () => {
           </div>
         </nav>
       </div>
-    </header>;
+    </header>
+  );
 };
+
 interface NavLinksProps {
   desktop: boolean;
   onClick?: () => void;
   handleNavLinkClick: (sectionId: string) => void;
 }
-const NavLinks = ({
-  desktop,
-  onClick,
-  handleNavLinkClick
-}: NavLinksProps) => {
+
+const NavLinks = ({ desktop, onClick, handleNavLinkClick }: NavLinksProps) => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+
   const toggleDropdown = (key: string) => {
     setActiveDropdown(activeDropdown === key ? null : key);
   };
+
   const handleLinkClick = () => {
     if (onClick) onClick();
     setActiveDropdown(null);
   };
+
   const dropdowns = {
-    solutions: [{
-      label: 'AI Demand Forecasting',
-      href: '/solutions/forecasting'
-    }, {
-      label: 'Order Management',
-      href: '/solutions/order-management'
-    }, {
-      label: 'Profitability Insights',
-      href: '/solutions/insights'
-    }, {
-      label: 'Delivery Integration',
-      href: '/solutions/delivery'
-    }, {
-      label: 'Procurement',
-      href: '/solutions/procurement'
-    }],
-    resources: [{
-      label: 'Case Studies',
-      href: '/resources/case-studies'
-    }, {
-      label: 'Blog',
-      href: '/blog'
-    }, {
-      label: 'Documentation',
-      href: '/docs'
-    }, {
-      label: 'Support',
-      href: '/support'
-    }]
+    solutions: [
+      { label: 'AI Demand Forecasting', href: '/solutions/forecasting' },
+      { label: 'Order Management', href: '/solutions/order-management' },
+      { label: 'Profitability Insights', href: '/solutions/insights' },
+      { label: 'Delivery Integration', href: '/solutions/delivery' },
+      { label: 'Procurement', href: '/solutions/procurement' }
+    ],
+    resources: [
+      { label: 'Case Studies', href: '/resources/case-studies' },
+      { label: 'Blog', href: '/blog' },
+      { label: 'Documentation', href: '/docs' },
+      { label: 'Support', href: '/support' }
+    ]
   };
-  const NavDropdown = ({
-    title,
-    items,
-    id
-  }: {
-    title: string;
-    items: {
-      label: string;
-      href: string;
-    }[];
-    id: string;
-  }) => {
+
+  const NavDropdown = ({ title, items, id }: { title: string; items: { label: string; href: string; }[]; id: string; }) => {
     const isActive = activeDropdown === id;
-    return <div className={desktop ? 'relative' : ''}>
-        <button onClick={() => toggleDropdown(id)} className={cn("flex items-center space-x-1 text-synkris-black font-medium transition-colors", desktop ? "hover:text-synkris-green" : "w-full justify-between", isActive && "text-synkris-green")}>
+    
+    return (
+      <div className={desktop ? 'relative' : ''}>
+        <button 
+          onClick={() => toggleDropdown(id)} 
+          className={cn(
+            "flex items-center space-x-1 text-synkris-black font-medium transition-colors", 
+            desktop ? "hover:text-synkris-green" : "w-full justify-between", 
+            isActive && "text-synkris-green"
+          )}
+        >
           <span>{title}</span>
           <ChevronDown className={cn("h-4 w-4 transition-transform", isActive && "rotate-180")} />
         </button>
         
-        <div className={cn(desktop ? "absolute left-0 mt-2 w-64 origin-top-left bg-white rounded-xl shadow-lg ring-1 ring-black/5" : "mt-2 space-y-1 pl-4", desktop && !isActive && "hidden")}>
-          {!desktop || isActive ? <div className={desktop ? "p-2" : ""}>
-              {items.map((item, idx) => <Link key={idx} to={item.href} className={cn("block transition-colors", desktop ? "px-4 py-2 text-sm rounded-lg hover:bg-gray-50" : "py-2 hover:text-synkris-green")} onClick={handleLinkClick}>
+        <div 
+          className={cn(
+            desktop ? 
+              "absolute left-0 mt-2 w-64 origin-top-left bg-white rounded-xl shadow-lg ring-1 ring-black/5 z-50" : 
+              "mt-2 space-y-1 pl-4", 
+            desktop && !isActive && "hidden"
+          )}
+        >
+          {!desktop || isActive ? (
+            <div className={desktop ? "p-2" : ""}>
+              {items.map((item, idx) => (
+                <Link 
+                  key={idx} 
+                  to={item.href} 
+                  className={cn(
+                    "block transition-colors", 
+                    desktop ? "px-4 py-2 text-sm rounded-lg hover:bg-gray-50" : "py-2 hover:text-synkris-green"
+                  )} 
+                  onClick={handleLinkClick}
+                >
                   {item.label}
-                </Link>)}
-            </div> : null}
+                </Link>
+              ))}
+            </div>
+          ) : null}
         </div>
-      </div>;
+      </div>
+    );
   };
-  return <>
+
+  return (
+    <>
       <NavDropdown title="Solutions" items={dropdowns.solutions} id="solutions" />
-      <button onClick={() => handleNavLinkClick('services')} className="text-synkris-black font-medium hover:text-synkris-green transition-colors text-left">
+      <button 
+        onClick={() => handleNavLinkClick('services')} 
+        className="text-synkris-black font-medium hover:text-synkris-green transition-colors text-left"
+      >
         Services
       </button>
-      <button onClick={() => handleNavLinkClick('pricing')} className="text-synkris-black font-medium hover:text-synkris-green transition-colors text-left">
+      <button 
+        onClick={() => handleNavLinkClick('pricing')} 
+        className="text-synkris-black font-medium hover:text-synkris-green transition-colors text-left"
+      >
         Pricing
       </button>
       <NavDropdown title="Resources" items={dropdowns.resources} id="resources" />
-    </>;
+    </>
+  );
 };
+
 export default Navbar;
