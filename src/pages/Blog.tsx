@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Search, Tag, Calendar, User, ArrowRight, ChevronLeft, Filter, Newspaper } from 'lucide-react';
@@ -273,11 +272,15 @@ const Blog = () => {
               <Breadcrumb>
                 <BreadcrumbList>
                   <BreadcrumbItem>
-                    <BreadcrumbLink as={Link} to="/">Home</BreadcrumbLink>
+                    <Link to="/">
+                      <BreadcrumbLink>Home</BreadcrumbLink>
+                    </Link>
                   </BreadcrumbItem>
                   <BreadcrumbSeparator />
                   <BreadcrumbItem>
-                    <BreadcrumbLink as={Link} to="/blog">Blog</BreadcrumbLink>
+                    <Link to="/blog">
+                      <BreadcrumbLink>Blog</BreadcrumbLink>
+                    </Link>
                   </BreadcrumbItem>
                   <BreadcrumbSeparator />
                   <BreadcrumbItem>
