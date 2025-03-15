@@ -14,6 +14,7 @@ const Testimonials = lazy(() => import('../components/home/Testimonials'));
 const Investors = lazy(() => import('../components/home/Investors'));
 const CTA = lazy(() => import('../components/home/CTA'));
 const VirtualTour = lazy(() => import('../components/home/VirtualTour'));
+const BlogPreview = lazy(() => import('../components/home/BlogPreview'));
 
 // Simple loading component
 const LoadingSection = () => (
@@ -80,6 +81,10 @@ const Index = () => {
         
         <Suspense fallback={<LoadingSection />}>
           <Testimonials />
+        </Suspense>
+        
+        <Suspense fallback={<LoadingSection />}>
+          <BlogPreview />
         </Suspense>
         
         <Suspense fallback={<LoadingSection />}>

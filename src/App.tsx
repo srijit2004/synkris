@@ -18,6 +18,7 @@ import AdminReports from "./pages/admin/Reports";
 import Demo from "./pages/Demo";
 import Contact from "./pages/Contact";
 import Enterprise from "./pages/Enterprise";
+import Blog from "./pages/Blog";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +42,8 @@ const App = () => (
           <Route path="/demo" element={<Demo />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/enterprise" element={<Enterprise />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:id" element={<Blog />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
