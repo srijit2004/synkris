@@ -4,6 +4,7 @@ import { Moon, Sun } from 'lucide-react';
 
 const ThemeToggle = () => {
   const [darkMode, setDarkMode] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     // Check for saved theme preference or use system preference
@@ -18,6 +19,9 @@ const ThemeToggle = () => {
     } else {
       document.documentElement.classList.remove('dark');
     }
+    
+    // Mark component as loaded
+    setIsLoaded(true);
   }, []);
 
   const toggleTheme = () => {
@@ -32,6 +36,11 @@ const ThemeToggle = () => {
       localStorage.setItem('synkris-theme', 'light');
     }
   };
+
+  // Show a simple placeholder until the component is fully loaded
+  if (!isLoaded) {
+    return <div className="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse"></div>;
+  }
 
   return (
     <button
