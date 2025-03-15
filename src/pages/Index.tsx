@@ -13,6 +13,7 @@ const Dashboard = lazy(() => import('../components/home/Dashboard'));
 const Testimonials = lazy(() => import('../components/home/Testimonials'));
 const Investors = lazy(() => import('../components/home/Investors'));
 const CTA = lazy(() => import('../components/home/CTA'));
+const VirtualTour = lazy(() => import('../components/home/VirtualTour'));
 
 // Simple loading component
 const LoadingSection = () => (
@@ -67,6 +68,10 @@ const Index = () => {
         
         <Suspense fallback={<LoadingSection />}>
           <Dashboard />
+        </Suspense>
+        
+        <Suspense fallback={<LoadingSection />}>
+          <VirtualTour />
         </Suspense>
         
         <Suspense fallback={<LoadingSection />}>
