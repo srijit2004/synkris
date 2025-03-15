@@ -1,8 +1,11 @@
 
-import React, { useEffect, lazy, Suspense } from 'react';
+import React, { useEffect, lazy, Suspense, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import Hero from '../components/home/Hero';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 // Lazy load components that aren't immediately visible
 const Features = lazy(() => import('../components/home/Features'));
@@ -19,15 +22,18 @@ const USPComparison = lazy(() => import('../components/home/USPComparison'));
 
 // Simple loading component with brand colors
 const LoadingSection = () => (
-  <div className="w-full py-20 flex justify-center items-center">
+  <div className="w-full py-12 sm:py-16 flex justify-center items-center">
     <div className="animate-pulse flex flex-col items-center">
-      <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-48 mb-4"></div>
-      <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-64"></div>
+      <div className="h-6 sm:h-8 bg-gray-200 dark:bg-gray-700 rounded w-32 sm:w-48 mb-3 sm:mb-4"></div>
+      <div className="h-3 sm:h-4 bg-gray-200 dark:bg-gray-700 rounded w-48 sm:w-64"></div>
     </div>
   </div>
 );
 
 const Index = () => {
+  const isMobile = useIsMobile();
+  const [showFloatingCTA, setShowFloatingCTA] = useState(false);
+
   useEffect(() => {
     // Scroll to top on page load
     window.scrollTo(0, 0);
@@ -44,6 +50,15 @@ const Index = () => {
     };
     
     preloadComponents();
+
+    // Show/hide floating CTA based on scroll position
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      setShowFloatingCTA(scrollPosition > window.innerHeight);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
@@ -97,6 +112,16 @@ const Index = () => {
         </Suspense>
       </main>
       <Footer />
+
+      {/* Floating CTA button for mobile */}
+      {isMobile && showFloatingCTA && (
+        <div className="floating-cta">
+          <Link to="/demo" className="floating-cta-button">
+            <span>Request Demo</span>
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+      )}
     </div>
   );
 };

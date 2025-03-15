@@ -61,10 +61,25 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    width: 100%;
   }
 
   html {
     @apply scroll-smooth;
+    -webkit-text-size-adjust: 100%; /* Prevent font scaling in landscape */
+  }
+  
+  /* Better touch targets for mobile */
+  @media (max-width: 768px) {
+    button, a {
+      min-height: 44px;
+      min-width: 44px;
+    }
+    
+    input, select, textarea {
+      font-size: 16px; /* Prevent zoom on focus in iOS */
+    }
   }
 }
 
@@ -82,31 +97,60 @@
   }
   
   .section-title {
-    @apply text-3xl sm:text-4xl md:text-5xl font-bold mb-6 tracking-tight;
+    @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 tracking-tight;
   }
   
   .section-subtitle {
-    @apply text-xl text-muted-foreground mb-12 max-w-3xl mx-auto;
+    @apply text-base sm:text-lg md:text-xl text-muted-foreground mb-6 md:mb-12 max-w-3xl mx-auto;
   }
   
   .page-section {
-    @apply py-20 px-6 md:px-10 max-w-7xl mx-auto;
+    @apply py-12 sm:py-16 md:py-20 px-4 sm:px-6 md:px-10 max-w-7xl mx-auto;
   }
   
   .cta-button {
-    @apply bg-synkris-green text-synkris-black font-medium rounded-full px-8 py-3 
+    @apply bg-synkris-green text-synkris-black font-medium rounded-full px-6 sm:px-8 py-2 sm:py-3 
     transition-all duration-300 hover:brightness-110 hover:scale-105 
     focus:outline-none focus:ring-2 focus:ring-synkris-green focus:ring-offset-2;
   }
   
   .cta-button-outline {
     @apply border-2 border-synkris-green text-synkris-green bg-transparent font-medium 
-    rounded-full px-8 py-3 transition-all duration-300 hover:bg-synkris-green/10
+    rounded-full px-6 sm:px-8 py-2 sm:py-3 transition-all duration-300 hover:bg-synkris-green/10
     focus:outline-none focus:ring-2 focus:ring-synkris-green focus:ring-offset-2;
   }
 
   .feature-card {
-    @apply glass-panel p-6 transition-all duration-300 hover:translate-y-[-5px];
+    @apply glass-panel p-4 sm:p-6 transition-all duration-300 hover:translate-y-[-5px];
+  }
+  
+  /* Mobile optimizations */
+  @media (max-width: 768px) {
+    .page-section {
+      @apply py-10 px-4;
+    }
+    
+    .section-title {
+      @apply text-2xl mb-3;
+    }
+    
+    .section-subtitle {
+      @apply text-base mb-6;
+    }
+    
+    .cta-button, .cta-button-outline {
+      @apply w-full justify-center text-center;
+    }
+  }
+  
+  /* Floating CTA for mobile */
+  .floating-cta {
+    @apply fixed bottom-4 right-4 left-4 md:hidden z-40 flex justify-center;
+  }
+  
+  .floating-cta-button {
+    @apply bg-synkris-green text-synkris-black font-medium rounded-full px-6 py-3
+    shadow-lg transition-all duration-300 flex items-center justify-center gap-2;
   }
 }
 
@@ -140,4 +184,31 @@ html {
 
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-synkris-green/60;
+}
+
+/* Mobile touch optimizations */
+@media (max-width: 768px) {
+  .touch-scroll {
+    -webkit-overflow-scrolling: touch;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 1rem;
+  }
+  
+  .touch-scroll > * {
+    scroll-snap-align: start;
+  }
+  
+  /* Increase tap target size */
+  a, button, input[type="button"], input[type="submit"] {
+    padding: 0.5rem;
+  }
+}
+
+/* Fix for safari mobile viewport height issue */
+@supports (-webkit-touch-callout: none) {
+  .min-h-screen {
+    min-height: -webkit-fill-available;
+  }
 }

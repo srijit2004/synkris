@@ -3,11 +3,13 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { Menu, X, ChevronDown } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,6 +38,19 @@ const Navbar = () => {
     }
   }, [location]);
 
+  useEffect(() => {
+    // Prevent body scroll when mobile menu is open
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
   const toggleMenu = () => setIsOpen(!isOpen);
 
   const handleNavLinkClick = (sectionId: string) => {
@@ -51,13 +66,13 @@ const Navbar = () => {
   return (
     <header 
       className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-4 sm:px-6 md:px-10 py-4', 
-        scrolled ? 'bg-white/80 backdrop-blur-md shadow-md' : 'bg-transparent'
+        'fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-4 sm:px-6 md:px-10 py-3', 
+        scrolled ? 'bg-white/95 backdrop-blur-md shadow-md' : 'bg-transparent'
       )}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
-        <Link to="/" className="flex items-center space-x-2" onClick={() => setIsOpen(false)}>
-          <span className="text-synkris-black font-bold py-0 my-0 mx-0 px-0 text-3xl sm:text-4xl md:text-5xl">
+        <Link to="/" className="flex items-center space-x-2 z-50" onClick={() => setIsOpen(false)}>
+          <span className="text-synkris-black font-bold py-0 my-0 mx-0 px-0 text-2xl sm:text-3xl md:text-4xl">
             Syn<span className="text-synkris-green">kris</span>
           </span>
         </Link>
@@ -78,28 +93,48 @@ const Navbar = () => {
           </Link>
         </div>
 
-        <button className="md:hidden text-synkris-black" onClick={toggleMenu} aria-label="Toggle menu">
+        <button 
+          className="md:hidden text-synkris-black z-50" 
+          onClick={toggleMenu} 
+          aria-label="Toggle menu"
+        >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile menu - improved for better touchability and spacing */}
       <div 
         className={cn(
-          'fixed inset-0 bg-white z-40 pt-20 px-6 md:hidden overflow-y-auto transition-transform duration-300 ease-in-out', 
+          'fixed inset-0 bg-white z-40 pt-16 pb-8 px-6 md:hidden overflow-y-auto transition-transform duration-300 ease-in-out', 
           isOpen ? 'translate-x-0' : 'translate-x-full'
         )}
       >
-        <nav className="flex flex-col space-y-6">
-          <NavLinks desktop={false} onClick={() => setIsOpen(false)} handleNavLinkClick={handleNavLinkClick} />
-          <div className="flex flex-col space-y-4 pt-4 border-t border-gray-100">
-            <Link to="/contact" className="text-synkris-black font-medium hover:text-synkris-green transition-colors" onClick={() => setIsOpen(false)}>
+        <nav className="flex flex-col space-y-5 pt-4">
+          <NavLinks 
+            desktop={false} 
+            onClick={() => setIsOpen(false)} 
+            handleNavLinkClick={handleNavLinkClick} 
+          />
+          <div className="flex flex-col space-y-4 pt-6 border-t border-gray-100">
+            <Link 
+              to="/contact" 
+              className="text-synkris-black text-lg font-medium hover:text-synkris-green transition-colors py-2" 
+              onClick={() => setIsOpen(false)}
+            >
               Contact Us
             </Link>
-            <Link to="/login" className="text-synkris-black font-medium hover:text-synkris-green transition-colors" onClick={() => setIsOpen(false)}>
+            <Link 
+              to="/login" 
+              className="text-synkris-black text-lg font-medium hover:text-synkris-green transition-colors py-2" 
+              onClick={() => setIsOpen(false)}
+            >
               Login
             </Link>
-            <Link to="/demo" className="cta-button text-center" onClick={() => setIsOpen(false)}>
+            <Link 
+              to="/demo" 
+              className="cta-button text-center py-4 mt-2 text-lg" 
+              onClick={() => setIsOpen(false)}
+            >
               Request Demo
             </Link>
           </div>
@@ -117,6 +152,7 @@ interface NavLinksProps {
 
 const NavLinks = ({ desktop, onClick, handleNavLinkClick }: NavLinksProps) => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const isMobile = useIsMobile();
 
   const toggleDropdown = (key: string) => {
     setActiveDropdown(activeDropdown === key ? null : key);
@@ -152,7 +188,7 @@ const NavLinks = ({ desktop, onClick, handleNavLinkClick }: NavLinksProps) => {
           onClick={() => toggleDropdown(id)} 
           className={cn(
             "flex items-center space-x-1 text-synkris-black font-medium transition-colors", 
-            desktop ? "hover:text-synkris-green" : "w-full justify-between", 
+            desktop ? "hover:text-synkris-green" : "w-full justify-between text-lg py-2", 
             isActive && "text-synkris-green"
           )}
         >
@@ -176,7 +212,7 @@ const NavLinks = ({ desktop, onClick, handleNavLinkClick }: NavLinksProps) => {
                   to={item.href} 
                   className={cn(
                     "block transition-colors", 
-                    desktop ? "px-4 py-2 text-sm rounded-lg hover:bg-gray-50" : "py-2 hover:text-synkris-green"
+                    desktop ? "px-4 py-2 text-sm rounded-lg hover:bg-gray-50" : "py-3 text-base hover:text-synkris-green"
                   )} 
                   onClick={handleLinkClick}
                 >
@@ -195,13 +231,19 @@ const NavLinks = ({ desktop, onClick, handleNavLinkClick }: NavLinksProps) => {
       <NavDropdown title="Solutions" items={dropdowns.solutions} id="solutions" />
       <button 
         onClick={() => handleNavLinkClick('services')} 
-        className="text-synkris-black font-medium hover:text-synkris-green transition-colors text-left"
+        className={cn(
+          "text-synkris-black font-medium hover:text-synkris-green transition-colors text-left",
+          !desktop && "text-lg py-2"
+        )}
       >
         Services
       </button>
       <button 
         onClick={() => handleNavLinkClick('pricing')} 
-        className="text-synkris-black font-medium hover:text-synkris-green transition-colors text-left"
+        className={cn(
+          "text-synkris-black font-medium hover:text-synkris-green transition-colors text-left",
+          !desktop && "text-lg py-2"
+        )}
       >
         Pricing
       </button>
