@@ -15,8 +15,9 @@ const Investors = lazy(() => import('../components/home/Investors'));
 const CTA = lazy(() => import('../components/home/CTA'));
 const VirtualTour = lazy(() => import('../components/home/VirtualTour'));
 const BlogPreview = lazy(() => import('../components/home/BlogPreview'));
+const USPComparison = lazy(() => import('../components/home/USPComparison'));
 
-// Simple loading component
+// Simple loading component with brand colors
 const LoadingSection = () => (
   <div className="w-full py-20 flex justify-center items-center">
     <div className="animate-pulse flex flex-col items-center">
@@ -64,6 +65,10 @@ const Index = () => {
         </Suspense>
         
         <Suspense fallback={<LoadingSection />}>
+          <USPComparison />
+        </Suspense>
+        
+        <Suspense fallback={<LoadingSection />}>
           <Pricing />
         </Suspense>
         
@@ -76,11 +81,11 @@ const Index = () => {
         </Suspense>
         
         <Suspense fallback={<LoadingSection />}>
-          <Investors />
+          <Testimonials />
         </Suspense>
         
         <Suspense fallback={<LoadingSection />}>
-          <Testimonials />
+          <Investors />
         </Suspense>
         
         <Suspense fallback={<LoadingSection />}>
