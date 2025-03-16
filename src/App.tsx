@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from './components/theme-provider';
@@ -25,7 +26,7 @@ function App() {
   return (
     <Router>
       <Toaster />
-      <ThemeProvider>
+      <ThemeProvider defaultTheme="system" enableSystem>
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/dashboard" element={<Dashboard />} />
