@@ -13,6 +13,7 @@ const HowItWorks = lazy(() => import('../components/home/HowItWorks'));
 const Services = lazy(() => import('../components/home/Services'));
 const Pricing = lazy(() => import('../components/home/Pricing'));
 const Dashboard = lazy(() => import('../components/home/Dashboard'));
+const SynkrisBrain = lazy(() => import('../components/home/SynkrisBrain'));
 const Testimonials = lazy(() => import('../components/home/Testimonials'));
 const Investors = lazy(() => import('../components/home/Investors'));
 const CTA = lazy(() => import('../components/home/CTA'));
@@ -89,6 +90,10 @@ const Index = () => {
         
         <Suspense fallback={<LoadingSection />}>
           <Dashboard />
+        </Suspense>
+        
+        <Suspense fallback={<LoadingSection />}>
+          <SynkrisBrain />
         </Suspense>
         
         <Suspense fallback={<LoadingSection />}>
