@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { ThemeProvider } from './components/theme-provider';
+import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 import AdminLayout from './layouts/AdminLayout';
 import AdminDashboard from './pages/admin/AdminDashboard';
@@ -25,8 +25,8 @@ import BrainDashboard from './pages/BrainDashboard';
 function App() {
   return (
     <Router>
-      <Toaster />
-      <ThemeProvider defaultTheme="system" enableSystem>
+      <ThemeProvider defaultTheme="light" storageKey="synkris-theme">
+        <Toaster />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/dashboard" element={<Dashboard />} />
