@@ -1,55 +1,56 @@
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { ThemeProvider } from './components/theme-provider';
+import { Toaster } from '@/components/ui/toaster';
+import AdminLayout from './layouts/AdminLayout';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import Customers from './pages/admin/Customers';
+import Subscriptions from './pages/admin/Subscriptions';
+import Forms from './pages/admin/Forms';
+import Locations from './pages/admin/Locations';
+import Reports from './pages/admin/Reports';
+import Index from './pages/Index';
+import Dashboard from './pages/Dashboard';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import Contact from './pages/Contact';
+import Demo from './pages/Demo';
+import Blog from './pages/Blog';
+import CaseStudies from './pages/CaseStudies';
+import Enterprise from './pages/Enterprise';
+import NotFound from './pages/NotFound';
+import BrainDashboard from './pages/BrainDashboard';
 
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
-import Signup from "./pages/Signup";
-import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
-import AdminDashboard from "./pages/admin/Dashboard";
-import AdminCustomers from "./pages/admin/Customers";
-import AdminSubscriptions from "./pages/admin/Subscriptions";
-import AdminLocations from "./pages/admin/Locations";
-import AdminForms from "./pages/admin/Forms";
-import AdminReports from "./pages/admin/Reports";
-import Demo from "./pages/Demo";
-import Contact from "./pages/Contact";
-import Enterprise from "./pages/Enterprise";
-import Blog from "./pages/Blog";
-
-const queryClient = new QueryClient();
-
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
+function App() {
+  return (
+    <Router>
       <Toaster />
-      <Sonner />
-      <BrowserRouter>
+      <ThemeProvider>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/admin/dashboard" element={<AdminDashboard />} />
-          <Route path="/admin/customers" element={<AdminCustomers />} />
-          <Route path="/admin/subscriptions" element={<AdminSubscriptions />} />
-          <Route path="/admin/locations" element={<AdminLocations />} />
-          <Route path="/admin/forms" element={<AdminForms />} />
-          <Route path="/admin/reports" element={<AdminReports />} />
-          <Route path="/demo" element={<Demo />} />
+          <Route path="/brain-dashboard" element={<BrainDashboard />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/enterprise" element={<Enterprise />} />
+          <Route path="/demo" element={<Demo />} />
           <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/:id" element={<Blog />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="/case-studies" element={<CaseStudies />} />
+          <Route path="/enterprise" element={<Enterprise />} />
+          {/* Admin routes */}
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="customers" element={<Customers />} />
+            <Route path="subscriptions" element={<Subscriptions />} />
+            <Route path="forms" element={<Forms />} />
+            <Route path="locations" element={<Locations />} />
+            <Route path="reports" element={<Reports />} />
+          </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+      </ThemeProvider>
+    </Router>
+  );
+}
 
 export default App;

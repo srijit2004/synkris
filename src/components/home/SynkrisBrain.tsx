@@ -1,5 +1,5 @@
-
 import React, { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { 
   Brain, 
   TrendingUp, 
@@ -12,10 +12,12 @@ import {
   Database,
   Zap,
   AlertTriangle,
-  CheckCircle
+  CheckCircle,
+  BrainCog
 } from 'lucide-react';
 import { useBrainInsights, useKitchenMetrics, BrainCapability } from '@/hooks/use-synkris-brain';
 import { BrainInsight } from '@/lib/supabase';
+import { Button } from '@/components/ui/button';
 
 const SynkrisBrain = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -44,7 +46,6 @@ const SynkrisBrain = () => {
     };
   }, []);
 
-  // Set first insight as selected when data is loaded
   useEffect(() => {
     if (insights && insights.length > 0 && !selectedInsight) {
       setSelectedInsight(insights[0]);
@@ -127,12 +128,10 @@ const SynkrisBrain = () => {
       id="synkris-brain"
       className="page-section bg-synkris-black text-white opacity-0 scroll-mt-20 relative overflow-hidden"
     >
-      {/* Background elements */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-20 left-10 w-72 h-72 bg-synkris-green/5 rounded-full blur-3xl" />
         <div className="absolute bottom-20 right-10 w-80 h-80 bg-synkris-green/5 rounded-full blur-3xl" />
         
-        {/* Neural network animated background */}
         <div className="absolute inset-0 opacity-10">
           <div className="neural-network"></div>
         </div>
@@ -143,7 +142,7 @@ const SynkrisBrain = () => {
           <div className="flex items-center gap-3 mb-4">
             <Brain className="h-8 w-8 text-synkris-green animate-pulse" />
             <h2 className="text-2xl sm:text-3xl font-bold">
-              Synkris <span className="text-synkris-green">Brain</span>
+              Syn<span className="text-synkris-green">kris</span> <span className="text-synkris-green">Brain</span>
             </h2>
           </div>
           
@@ -155,10 +154,18 @@ const SynkrisBrain = () => {
               Our proprietary AI ecosystem continuously learns, improves, and optimizes every aspect 
               of cloud kitchen operations, making your food brand more profitable and scalable.
             </p>
+
+            <div className="mt-6">
+              <Link to="/brain-dashboard">
+                <Button className="cta-button flex items-center gap-2">
+                  <BrainCog className="h-5 w-5" />
+                  Access Synkris Brain Dashboard
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
 
-        {/* Live Insights Panel */}
         <div className="mb-12 glass-panel-dark p-6 border border-synkris-green/20 rounded-xl">
           <div className="flex items-center mb-4 gap-2">
             <Zap className="h-5 w-5 text-synkris-green" />
@@ -166,7 +173,6 @@ const SynkrisBrain = () => {
           </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Insights List */}
             <div className="col-span-1 space-y-2">
               {insightsLoading ? (
                 <div className="animate-pulse space-y-3">
@@ -204,7 +210,6 @@ const SynkrisBrain = () => {
               )}
             </div>
             
-            {/* Selected Insight Details */}
             <div className="col-span-1 lg:col-span-2 bg-gray-900/50 p-4 rounded-lg border border-white/5">
               {selectedInsight ? (
                 <div className="space-y-4">
@@ -276,18 +281,15 @@ const SynkrisBrain = () => {
           </div>
         </div>
 
-        {/* Brain visualization */}
         <div className="flex justify-center mb-12 relative">
           <div className="glass-panel-dark p-6 rounded-full border border-synkris-green/20 relative">
             <div className="p-4 bg-synkris-green/10 rounded-full">
               <Brain className="h-16 w-16 md:h-24 md:w-24 text-synkris-green" />
             </div>
             
-            {/* Pulsating rings */}
             <div className="absolute inset-0 rounded-full border border-synkris-green/20 animate-ping-slow opacity-50"></div>
             <div className="absolute inset-0 rounded-full border border-synkris-green/10 animate-ping-slower opacity-30 scale-110"></div>
             
-            {/* Connection lines (only visible on larger screens) */}
             <div className="hidden md:block">
               {[0, 45, 90, 135, 180, 225, 270, 315].map((angle, index) => (
                 <div 
@@ -321,7 +323,6 @@ const SynkrisBrain = () => {
           ))}
         </div>
         
-        {/* Data stream visualization */}
         <div className="mt-12 relative overflow-hidden rounded-lg p-6 glass-panel-dark border border-white/5">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="max-w-md">
@@ -348,6 +349,20 @@ const SynkrisBrain = () => {
               </div>
             </div>
           </div>
+        </div>
+
+        <div className="mt-16 text-center">
+          <h3 className="text-xl sm:text-2xl font-semibold mb-4">Ready to revolutionize your cloud kitchen operations?</h3>
+          <p className="text-gray-400 mb-6 max-w-2xl mx-auto">
+            Experience the power of Synkris Brain in action. Get real-time insights, optimize your operations,
+            and increase your profitability with our proprietary AI ecosystem.
+          </p>
+          <Link to="/brain-dashboard">
+            <Button className="cta-button flex items-center gap-2">
+              <BrainCog className="h-5 w-5" />
+              Access Synkris Brain Dashboard
+            </Button>
+          </Link>
         </div>
       </div>
     </section>
