@@ -21,13 +21,15 @@ import CaseStudies from './pages/CaseStudies';
 import Enterprise from './pages/Enterprise';
 import NotFound from './pages/NotFound';
 import BrainDashboard from './pages/BrainDashboard';
+import Debug from './pages/Debug';
 
 function App() {
   return (
-    <Router>
-      <ThemeProvider defaultTheme="light" storageKey="synkris-theme">
+    <ThemeProvider defaultTheme="light" storageKey="synkris-theme">
+      <Router>
         <Toaster />
         <Routes>
+          <Route path="/debug" element={<Debug />} />
           <Route path="/" element={<Index />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/brain-dashboard" element={<BrainDashboard />} />
@@ -49,8 +51,8 @@ function App() {
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </ThemeProvider>
-    </Router>
+      </Router>
+    </ThemeProvider>
   );
 }
 
