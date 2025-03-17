@@ -1,13 +1,14 @@
 
-import React, { Suspense, ErrorBoundary } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from '@/components/theme-provider';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Index from './pages/Index';
 import Debug from './pages/Debug';
 import NotFound from './pages/NotFound';
 
 // Simple error fallback component
-const ErrorFallback = ({ error, resetErrorBoundary }) => {
+const ErrorFallback = ({ error, resetErrorBoundary }: { error: Error; resetErrorBoundary: () => void }) => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
       <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-md w-full">
@@ -25,50 +26,65 @@ const ErrorFallback = ({ error, resetErrorBoundary }) => {
 };
 
 // Error boundary class component
-class AppErrorBoundary extends React.Component {
-  constructor(props) {
+class AppErrorBoundary extends React.Component<{children: React.ReactNode}, {hasError: boolean; error: Error | null}> {
+  constructor(props: {children: React.ReactNode}) {
     super(props);
     this.state = { hasError: false, error: null };
   }
 
-  static getDerivedStateFromError(error) {
+  static getDerivedStateFromError(error: Error) {
     return { hasError: true, error };
   }
 
-  componentDidCatch(error, errorInfo) {
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     console.error("Error caught by boundary:", error, errorInfo);
   }
 
   render() {
     if (this.state.hasError) {
-      return <ErrorFallback error={this.state.error} resetErrorBoundary={() => {
-        this.setState({ hasError: false, error: null });
-        window.location.reload();
-      }} />;
+      return <ErrorFallback 
+        error={this.state.error as Error} 
+        resetErrorBoundary={() => {
+          this.setState({ hasError: false, error: null });
+          window.location.reload();
+        }} 
+      />;
     }
 
     return this.props.children;
   }
 }
 
+// Create a QueryClient instance
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
+
 function App() {
   console.log('App component rendering');
   
   return (
     <AppErrorBoundary>
-      <ThemeProvider defaultTheme="light" attribute="class">
-        <div className="app-container min-h-screen">
-          <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
-            <Router>
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/debug" element={<Debug />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Router>
-          </Suspense>
-        </div>
-      </ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider defaultTheme="light" attribute="class">
+          <div className="app-container min-h-screen">
+            <React.Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+              <Router>
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/debug" element={<Debug />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Router>
+            </React.Suspense>
+          </div>
+        </ThemeProvider>
+      </QueryClientProvider>
     </AppErrorBoundary>
   );
 }
