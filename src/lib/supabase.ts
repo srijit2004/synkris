@@ -6,13 +6,54 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  console.warn(
-    'Supabase credentials not found. Make sure to connect your project to Supabase through the Lovable interface.'
-  );
+// Create a mock Supabase client when credentials are missing
+let supabase: any;
+
+try {
+  if (!supabaseUrl || !supabaseAnonKey) {
+    console.warn(
+      'Supabase credentials not found. Using mock Supabase client.'
+    );
+    
+    // Create a mock client to prevent app crashes
+    supabase = {
+      from: () => ({
+        select: () => ({
+          order: () => ({
+            limit: () => Promise.resolve({ data: [], error: null })
+          })
+        })
+      }),
+      auth: {
+        signIn: () => Promise.resolve({ user: null, error: null }),
+        signOut: () => Promise.resolve({ error: null }),
+        onAuthStateChange: () => ({ data: null, error: null })
+      }
+    };
+  } else {
+    // Create the real client when credentials are available
+    supabase = createClient(supabaseUrl, supabaseAnonKey);
+  }
+} catch (error) {
+  console.error('Error initializing Supabase client:', error);
+  // Provide fallback mock client in case of error
+  supabase = {
+    from: () => ({
+      select: () => ({
+        order: () => ({
+          limit: () => Promise.resolve({ data: [], error: null })
+        })
+      })
+    }),
+    auth: {
+      signIn: () => Promise.resolve({ user: null, error: null }),
+      signOut: () => Promise.resolve({ error: null }),
+      onAuthStateChange: () => ({ data: null, error: null })
+    }
+  };
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export { supabase };
 
 // Database types for TypeScript - update these as your schema changes
 export type BrainInsight = {

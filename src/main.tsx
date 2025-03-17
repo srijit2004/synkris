@@ -7,6 +7,16 @@ import './index.css';
 // Debug issues with mounting
 console.log('Starting app render...');
 
+// Global error handler for unhandled promise rejections
+window.addEventListener('unhandledrejection', (event) => {
+  console.error('Unhandled Promise Rejection:', event.reason);
+});
+
+// Global error handler for uncaught exceptions
+window.addEventListener('error', (event) => {
+  console.error('Uncaught Error:', event.error);
+});
+
 try {
   const rootElement = document.getElementById('root');
   

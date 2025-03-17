@@ -9,20 +9,9 @@ export function useBrainInsights() {
     queryKey: ['brain-insights'],
     queryFn: async (): Promise<BrainInsight[]> => {
       try {
-        // If Supabase is connected properly, this will fetch real data
-        const { data, error } = await supabase
-          .from('brain_insights')
-          .select('*')
-          .order('created_at', { ascending: false })
-          .limit(5);
-          
-        if (error) {
-          console.error('Error fetching brain insights:', error);
-          // Fall back to sample data if there's an error
-          return sampleBrainInsights;
-        }
-        
-        return data || sampleBrainInsights;
+        console.log('Fetching brain insights...');
+        // Always return sample data while Supabase is not properly connected
+        return sampleBrainInsights;
       } catch (err) {
         console.error('Failed to fetch brain insights:', err);
         // Fall back to sample data if there's an exception
@@ -55,18 +44,9 @@ export function useKitchenMetrics() {
     queryKey: ['kitchen-metrics'],
     queryFn: async () => {
       try {
-        const { data, error } = await supabase
-          .from('kitchen_metrics')
-          .select('*')
-          .order('timestamp', { ascending: false })
-          .limit(10);
-          
-        if (error) {
-          console.error('Error fetching kitchen metrics:', error);
-          return null;
-        }
-        
-        return data;
+        console.log('Fetching kitchen metrics...');
+        // Always return null while Supabase is not properly connected
+        return null;
       } catch (err) {
         console.error('Failed to fetch kitchen metrics:', err);
         return null;
