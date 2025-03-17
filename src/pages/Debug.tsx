@@ -1,15 +1,22 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 const Debug = () => {
+  useEffect(() => {
+    console.log('Debug component mounted');
+  }, []);
+
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center p-4 text-center">
-      <h1 className="text-4xl font-bold mb-4">Debug Page</h1>
-      <p className="max-w-md mb-6">
-        If you can see this page, React is rendering correctly but there might be issues with other components.
-      </p>
-      <div className="p-4 bg-red-100 text-red-800 rounded-lg">
-        Current route: {window.location.pathname}
+    <div className="debug-page" style={{ padding: '20px', textAlign: 'center' }}>
+      <h1 style={{ color: 'red', marginBottom: '20px' }}>Debug Page</h1>
+      <p>If you can see this page, basic React rendering is working.</p>
+      <div style={{ 
+        backgroundColor: '#ffeeee', 
+        padding: '10px', 
+        borderRadius: '5px',
+        marginTop: '20px'
+      }}>
+        Current URL: {window.location.href}
       </div>
     </div>
   );
