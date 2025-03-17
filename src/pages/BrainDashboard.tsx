@@ -23,10 +23,11 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useBrainInsights, useKitchenMetrics } from "@/hooks/use-synkris-brain";
 import { useToast } from "@/hooks/use-toast";
+import AIChatAssistant from "@/components/brain/AIChatAssistant";
 
 const BrainDashboard = () => {
   const { insights, isLoading: insightsLoading } = useBrainInsights();
-  const { dataPointsProcessed, metrics } = useKitchenMetrics();
+  const { dataPointsProcessed, revenueData, salesData } = useKitchenMetrics();
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState("dashboard");
 
@@ -267,58 +268,65 @@ const BrainDashboard = () => {
                 </div>
               </div>
               
-              <div className="mt-8">
-                <h2 className="text-lg font-semibold mb-4">Real-Time AI Insights</h2>
-                <div className="space-y-3">
-                  {insightsLoading ? (
-                    <div className="animate-pulse space-y-3">
-                      {[1, 2, 3].map(i => (
-                        <div key={i} className="h-20 bg-white/5 rounded-lg"></div>
-                      ))}
-                    </div>
-                  ) : (
-                    insights?.slice(0, 3).map(insight => (
-                      <div key={insight.id} className="bg-white/5 p-4 rounded-lg border border-white/10 flex flex-col sm:flex-row gap-4 transition-all hover:border-synkris-green/30">
-                        <div className="sm:w-64 flex-shrink-0">
-                          <div className="flex items-center gap-2 mb-1">
-                            {insight.insight_type === 'demand' && <TrendingUp className="h-4 w-4 text-synkris-green" />}
-                            {insight.insight_type === 'pricing' && <DollarSign className="h-4 w-4 text-synkris-green" />}
-                            {insight.insight_type === 'inventory' && <ShoppingCart className="h-4 w-4 text-synkris-green" />}
-                            {insight.insight_type === 'staffing' && <Users className="h-4 w-4 text-synkris-green" />}
-                            {insight.insight_type === 'workflow' && <Clock className="h-4 w-4 text-synkris-green" />}
-                            <span className="text-sm font-medium capitalize">{insight.insight_type} Insight</span>
-                          </div>
-                          <div className="text-xs text-gray-400 flex items-center justify-between">
-                            <span>Confidence: {(insight.confidence_score * 100).toFixed(0)}%</span>
-                            <span className={`capitalize px-2 py-0.5 rounded text-xs ${
-                              insight.priority === 'high' ? 'bg-red-500/20 text-red-300' :
-                              insight.priority === 'medium' ? 'bg-yellow-500/20 text-yellow-300' :
-                              'bg-blue-500/20 text-blue-300'
-                            }`}>
-                              {insight.priority}
-                            </span>
-                          </div>
-                        </div>
-                        <div className="flex-1">
-                          <h3 className="font-medium">{insight.title}</h3>
-                          <p className="text-sm text-gray-300 mt-1">{insight.description}</p>
-                        </div>
-                        <div className="flex-shrink-0 flex sm:flex-col gap-2 sm:gap-1 items-center sm:items-start sm:w-32">
-                          <Button size="sm" variant="outline" className="text-xs border-synkris-green/30 text-synkris-green hover:bg-synkris-green/10">
-                            View Details
-                          </Button>
-                          <Button size="sm" variant="ghost" className="text-xs text-gray-400 hover:text-white">
-                            Dismiss
-                          </Button>
-                        </div>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+                <div>
+                  <h2 className="text-lg font-semibold mb-4">Real-Time AI Insights</h2>
+                  <div className="space-y-3">
+                    {insightsLoading ? (
+                      <div className="animate-pulse space-y-3">
+                        {[1, 2, 3].map(i => (
+                          <div key={i} className="h-20 bg-white/5 rounded-lg"></div>
+                        ))}
                       </div>
-                    ))
-                  )}
+                    ) : (
+                      insights?.slice(0, 3).map(insight => (
+                        <div key={insight.id} className="bg-white/5 p-4 rounded-lg border border-white/10 flex flex-col sm:flex-row gap-4 transition-all hover:border-synkris-green/30">
+                          <div className="sm:w-64 flex-shrink-0">
+                            <div className="flex items-center gap-2 mb-1">
+                              {insight.insight_type === 'demand' && <TrendingUp className="h-4 w-4 text-synkris-green" />}
+                              {insight.insight_type === 'pricing' && <DollarSign className="h-4 w-4 text-synkris-green" />}
+                              {insight.insight_type === 'inventory' && <ShoppingCart className="h-4 w-4 text-synkris-green" />}
+                              {insight.insight_type === 'staffing' && <Users className="h-4 w-4 text-synkris-green" />}
+                              {insight.insight_type === 'workflow' && <Clock className="h-4 w-4 text-synkris-green" />}
+                              <span className="text-sm font-medium capitalize">{insight.insight_type} Insight</span>
+                            </div>
+                            <div className="text-xs text-gray-400 flex items-center justify-between">
+                              <span>Confidence: {(insight.confidence_score * 100).toFixed(0)}%</span>
+                              <span className={`capitalize px-2 py-0.5 rounded text-xs ${
+                                insight.priority === 'high' ? 'bg-red-500/20 text-red-300' :
+                                insight.priority === 'medium' ? 'bg-yellow-500/20 text-yellow-300' :
+                                'bg-blue-500/20 text-blue-300'
+                              }`}>
+                                {insight.priority}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="flex-1">
+                            <h3 className="font-medium">{insight.title}</h3>
+                            <p className="text-sm text-gray-300 mt-1">{insight.description}</p>
+                          </div>
+                          <div className="flex-shrink-0 flex sm:flex-col gap-2 sm:gap-1 items-center sm:items-start">
+                            <Button size="sm" variant="outline" className="text-xs border-synkris-green/30 text-synkris-green hover:bg-synkris-green/10">
+                              View Details
+                            </Button>
+                            <Button size="sm" variant="ghost" className="text-xs text-gray-400 hover:text-white">
+                              Dismiss
+                            </Button>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                  <div className="mt-4 text-center">
+                    <Button variant="outline" className="border-white/10 hover:bg-white/5">
+                      View All Insights
+                    </Button>
+                  </div>
                 </div>
-                <div className="mt-4 text-center">
-                  <Button variant="outline" className="border-white/10 hover:bg-white/5">
-                    View All Insights
-                  </Button>
+                
+                <div>
+                  <h2 className="text-lg font-semibold mb-4">AI Assistant</h2>
+                  <AIChatAssistant />
                 </div>
               </div>
             </div>

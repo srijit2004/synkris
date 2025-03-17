@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Index from './pages/Index';
 import Debug from './pages/Debug';
 import NotFound from './pages/NotFound';
+import BrainDashboard from './pages/BrainDashboard';
 
 // Simple error fallback component
 const ErrorFallback = ({ error, resetErrorBoundary }: { error: Error; resetErrorBoundary: () => void }) => {
@@ -78,6 +79,7 @@ function App() {
                 <Routes>
                   <Route path="/" element={<Index />} />
                   <Route path="/debug" element={<Debug />} />
+                  <Route path="/brain-dashboard" element={<BrainDashboard />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Router>

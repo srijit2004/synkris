@@ -123,4 +123,37 @@ export const sampleBrainInsights: BrainInsight[] = [
     confidence_score: 0.89,
     priority: 'medium'
   },
+  {
+    id: '5',
+    insight_type: 'workflow',
+    title: 'Preparation Bottleneck Identified',
+    description: 'Kitchen analysis suggests a 15% delay in dessert preparation. Reorganizing station layout could improve efficiency.',
+    data_points: 8900,
+    created_at: new Date().toISOString(),
+    status: 'active',
+    confidence_score: 0.91,
+    priority: 'medium'
+  },
+  {
+    id: '6',
+    insight_type: 'demand',
+    title: 'Vegetarian Menu Opportunity',
+    description: 'Analysis of ordering patterns shows 35% increase in vegetarian orders. Consider expanding vegetarian options.',
+    data_points: 10500,
+    created_at: new Date().toISOString(),
+    status: 'active',
+    confidence_score: 0.88,
+    priority: 'high'
+  },
+  {
+    id: '7',
+    insight_type: 'pricing',
+    title: 'Happy Hour Promotion Impact',
+    description: 'Recent 2-hour discount window increased order volume by 28%. Recommend regular implementation.',
+    data_points: 5400,
+    created_at: new Date().toISOString(),
+    status: 'active',
+    confidence_score: 0.86,
+    priority: 'medium'
+  }
 ];
