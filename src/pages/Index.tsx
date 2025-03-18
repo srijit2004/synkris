@@ -1,4 +1,3 @@
-
 import React, { useEffect, lazy, Suspense, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
@@ -105,10 +104,6 @@ const Index = () => {
         </Suspense>
         
         <Suspense fallback={<LoadingSection />}>
-          <Investors />
-        </Suspense>
-        
-        <Suspense fallback={<LoadingSection />}>
           <BlogPreview />
         </Suspense>
         
@@ -118,7 +113,6 @@ const Index = () => {
       </main>
       <Footer />
 
-      {/* Floating CTA button for mobile */}
       {isMobile && showFloatingCTA && (
         <div className="floating-cta">
           <Link to="/demo" className="floating-cta-button">

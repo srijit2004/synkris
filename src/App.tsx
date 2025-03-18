@@ -1,9 +1,12 @@
-
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from '@/components/theme-provider';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Index from './pages/Index';
+import Login from './pages/Login';
+import Demo from './pages/Demo';
+import Contact from './pages/Contact';
+import Enterprise from './pages/Enterprise';
 import Debug from './pages/Debug';
 import NotFound from './pages/NotFound';
 import BrainDashboard from './pages/BrainDashboard';
@@ -78,8 +81,13 @@ function App() {
               <Router>
                 <Routes>
                   <Route path="/" element={<Index />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/demo" element={<Demo />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/enterprise" element={<Enterprise />} />
                   <Route path="/debug" element={<Debug />} />
                   <Route path="/brain-dashboard" element={<BrainDashboard />} />
+                  <Route path="/solutions/*" element={<Solutions />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Router>
