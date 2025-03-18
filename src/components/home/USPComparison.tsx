@@ -1,60 +1,71 @@
 
-import React from 'react';
-import { Check, X, AlertTriangle } from 'lucide-react';
+import React, { useState } from 'react';
+import { Check, X, AlertTriangle, ArrowRight } from 'lucide-react';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
+import { Progress } from "@/components/ui/progress";
 
 const USPComparison = () => {
   const features = [
     {
-      name: "AI-Powered Kitchen Management",
+      name: "End-to-End Kitchen Operations",
       synkris: true,
       competitors: false,
-      description: "Smart predictions and real-time optimization"
+      description: "Complete setup to scaling support",
+      detail: "Synkris manages everything from kitchen setup to daily operations, staffing, and scaling strategies."
     },
     {
-      name: "End-to-End Operations",
+      name: "Food Preparation & Staffing",
       synkris: true,
       competitors: false,
-      description: "Complete kitchen management from inventory to delivery"
+      description: "Fully managed by our team",
+      detail: "We handle staff recruitment, training, and management. You focus on your brand."
     },
     {
-      name: "Real-time Analytics",
+      name: "Marketing & Brand Growth",
       synkris: true,
       competitors: "partial",
-      description: "Live insights and performance tracking"
+      description: "Comprehensive marketing support",
+      detail: "SEO optimization, menu engineering, and targeted marketing campaigns included."
     },
     {
-      name: "Multi-location Support",
-      synkris: true,
-      competitors: "partial",
-      description: "Seamless management across multiple kitchens"
-    },
-    {
-      name: "AI Demand Forecasting",
+      name: "Bulk Procurement Discounts",
       synkris: true,
       competitors: false,
-      description: "Predict demand patterns with ML algorithms"
+      description: "AI-driven cost optimization",
+      detail: "Save up to 30% on raw materials through our AI-powered procurement system."
     },
     {
-      name: "Smart Inventory Management",
-      synkris: true,
-      competitors: "partial",
-      description: "AI-driven stock optimization"
-    },
-    {
-      name: "Integrated POS System",
-      synkris: true,
-      competitors: true,
-      description: "Seamless point-of-sale integration"
-    },
-    {
-      name: "Menu Optimization",
+      name: "Smart AI Insights",
       synkris: true,
       competitors: false,
-      description: "AI-powered menu and pricing suggestions"
+      description: "Data-driven decision making",
+      detail: "Real-time analytics and AI predictions for optimal kitchen performance."
+    },
+    {
+      name: "Delivery Integration",
+      synkris: true,
+      competitors: "partial",
+      description: "Seamless delivery management",
+      detail: "Direct integration with major delivery platforms and real-time order tracking."
+    },
+    {
+      name: "Cost Efficiency",
+      synkris: true,
+      competitors: false,
+      description: "Flexible payment plans",
+      detail: "Start with minimal investment and scale as you grow. No large upfront costs."
+    },
+    {
+      name: "Technology Platform",
+      synkris: true,
+      competitors: "partial",
+      description: "Advanced tech stack",
+      detail: "Cutting-edge technology for inventory, orders, and kitchen management."
     }
   ];
 
-  // Fix the type definition to accept only boolean or "partial"
+  const [selectedFeature, setSelectedFeature] = useState<number | null>(null);
+
   const renderStatus = (status: boolean | "partial") => {
     if (status === true) {
       return <Check className="w-6 h-6 text-synkris-green" />;
@@ -71,7 +82,7 @@ const USPComparison = () => {
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold mb-4">Why Choose Synkris?</h2>
           <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            Experience the future of cloud kitchen management with our AI-powered platform
+            The most comprehensive cloud kitchen solution that puts you ahead of the competition
           </p>
         </div>
         
@@ -85,24 +96,48 @@ const USPComparison = () => {
             
             <div className="divide-y divide-gray-200 dark:divide-gray-700">
               {features.map((feature, index) => (
-                <div key={index} className="grid grid-cols-4 px-6 py-4 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
-                  <div className="col-span-2">
-                    <p className="font-medium">{feature.name}</p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{feature.description}</p>
-                  </div>
-                  <div className="flex justify-center items-center">
-                    {renderStatus(feature.synkris)}
-                  </div>
-                  <div className="flex justify-center items-center">
-                    {renderStatus(feature.competitors as boolean | "partial")}
-                  </div>
-                </div>
+                <HoverCard key={index}>
+                  <HoverCardTrigger asChild>
+                    <div 
+                      className={`grid grid-cols-4 px-6 py-4 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors cursor-pointer
+                        ${selectedFeature === index ? 'bg-gray-50 dark:bg-gray-800/50' : ''}`}
+                      onMouseEnter={() => setSelectedFeature(index)}
+                      onMouseLeave={() => setSelectedFeature(null)}
+                    >
+                      <div className="col-span-2">
+                        <p className="font-medium">{feature.name}</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{feature.description}</p>
+                      </div>
+                      <div className="flex justify-center items-center">
+                        {renderStatus(feature.synkris)}
+                      </div>
+                      <div className="flex justify-center items-center">
+                        {renderStatus(feature.competitors as boolean | "partial")}
+                      </div>
+                    </div>
+                  </HoverCardTrigger>
+                  <HoverCardContent className="w-80">
+                    <div className="space-y-2">
+                      <h4 className="text-sm font-semibold">{feature.name}</h4>
+                      <p className="text-sm text-muted-foreground">{feature.detail}</p>
+                      {feature.synkris && (
+                        <div className="mt-2">
+                          <div className="flex justify-between text-xs mb-1">
+                            <span>Effectiveness</span>
+                            <span>95%</span>
+                          </div>
+                          <Progress value={95} className="h-2" />
+                        </div>
+                      )}
+                    </div>
+                  </HoverCardContent>
+                </HoverCard>
               ))}
             </div>
           </div>
           
           <div className="mt-8 text-center">
-            <p className="text-sm text-gray-500 dark:text-gray-400">
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
               <span className="inline-flex items-center mr-4">
                 <Check className="w-4 h-4 text-synkris-green mr-1" /> Available
               </span>
@@ -113,6 +148,11 @@ const USPComparison = () => {
                 <X className="w-4 h-4 text-red-500 mr-1" /> Not Available
               </span>
             </p>
+            
+            <button className="bg-synkris-green text-black px-8 py-3 rounded-full font-medium hover:brightness-110 transition-all flex items-center gap-2 mx-auto">
+              Start Your Cloud Kitchen Journey
+              <ArrowRight className="w-5 h-5" />
+            </button>
           </div>
         </div>
       </div>
