@@ -10,6 +10,7 @@ import Enterprise from './pages/Enterprise';
 import Debug from './pages/Debug';
 import NotFound from './pages/NotFound';
 import BrainDashboard from './pages/BrainDashboard';
+import Solutions from './pages/Solutions';
 
 // Simple error fallback component
 const ErrorFallback = ({ error, resetErrorBoundary }: { error: Error; resetErrorBoundary: () => void }) => {
