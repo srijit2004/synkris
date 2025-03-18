@@ -54,6 +54,7 @@ const USPComparison = () => {
     }
   ];
 
+  // Fix the type definition to accept only boolean or "partial"
   const renderStatus = (status: boolean | "partial") => {
     if (status === true) {
       return <Check className="w-6 h-6 text-synkris-green" />;
@@ -93,7 +94,7 @@ const USPComparison = () => {
                     {renderStatus(feature.synkris)}
                   </div>
                   <div className="flex justify-center items-center">
-                    {renderStatus(feature.competitors)}
+                    {renderStatus(feature.competitors as boolean | "partial")}
                   </div>
                 </div>
               ))}
