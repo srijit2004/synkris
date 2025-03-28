@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Mail, Send, MapPin, Phone } from "lucide-react";
@@ -9,9 +8,10 @@ import { Textarea } from "@/components/ui/textarea";
 import emailjs from "@emailjs/browser";
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-
 const Contact = () => {
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     fullName: "",
@@ -20,15 +20,16 @@ const Contact = () => {
     subject: "",
     message: ""
   });
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
+    const {
+      name,
+      value
+    } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
   };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -41,9 +42,7 @@ const Contact = () => {
       });
       return;
     }
-
     setIsSubmitting(true);
-    
     try {
       // Configure EmailJS with the service and template IDs
       const templateParams = {
@@ -56,11 +55,11 @@ const Contact = () => {
       };
 
       // Send email using EmailJS with your public key
-      await emailjs.send(
-        "service_synkris", // Use your EmailJS service ID
-        "template_synkris", // Use your EmailJS template ID
-        templateParams,
-        "0-cRGh0QYH2tdp9z1" // Your provided EmailJS public key
+      await emailjs.send("service_synkris",
+      // Use your EmailJS service ID
+      "template_synkris",
+      // Use your EmailJS template ID
+      templateParams, "0-cRGh0QYH2tdp9z1" // Your provided EmailJS public key
       );
 
       // Console log for debugging
@@ -91,9 +90,7 @@ const Contact = () => {
       setIsSubmitting(false);
     }
   };
-
-  return (
-    <div className="min-h-screen bg-white dark:bg-synkris-black dark:text-white flex flex-col">
+  return <div className="min-h-screen bg-white dark:bg-synkris-black dark:text-white flex flex-col">
       <Navbar />
       
       {/* Main Content */}
@@ -131,7 +128,7 @@ const Contact = () => {
                   <Phone className="w-5 h-5 text-synkris-green mt-1 flex-shrink-0" />
                   <div>
                     <h3 className="font-medium">Call Us</h3>
-                    <p className="text-gray-600 dark:text-gray-400">+91 8509502285</p>
+                    <p className="text-gray-600 dark:text-gray-400">+91 9564034945</p>
                   </div>
                 </div>
                 
@@ -150,34 +147,19 @@ const Contact = () => {
               <div className="mt-10">
                 <h3 className="font-medium mb-3">Connect With Us</h3>
                 <div className="flex space-x-3">
-                  <a 
-                    href="https://twitter.com" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-synkris-green hover:text-synkris-black transition-colors"
-                  >
+                  <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-synkris-green hover:text-synkris-black transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
                     </svg>
                   </a>
-                  <a 
-                    href="https://linkedin.com" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-synkris-green hover:text-synkris-black transition-colors"
-                  >
+                  <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-synkris-green hover:text-synkris-black transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
                       <rect x="2" y="9" width="4" height="12"></rect>
                       <circle cx="4" cy="4" r="2"></circle>
                     </svg>
                   </a>
-                  <a 
-                    href="https://instagram.com" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-synkris-green hover:text-synkris-black transition-colors"
-                  >
+                  <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-synkris-green hover:text-synkris-black transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                       <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
@@ -199,30 +181,14 @@ const Contact = () => {
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Full Name <span className="text-red-500">*</span>
                       </label>
-                      <Input 
-                        type="text" 
-                        name="fullName" 
-                        value={formData.fullName} 
-                        onChange={handleChange} 
-                        placeholder="Your name" 
-                        className="w-full" 
-                        required 
-                      />
+                      <Input type="text" name="fullName" value={formData.fullName} onChange={handleChange} placeholder="Your name" className="w-full" required />
                     </div>
                     
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Email Address <span className="text-red-500">*</span>
                       </label>
-                      <Input 
-                        type="email" 
-                        name="email" 
-                        value={formData.email} 
-                        onChange={handleChange} 
-                        placeholder="you@example.com" 
-                        className="w-full" 
-                        required 
-                      />
+                      <Input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="you@example.com" className="w-full" required />
                     </div>
                   </div>
                   
@@ -231,29 +197,14 @@ const Contact = () => {
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Phone Number
                       </label>
-                      <Input 
-                        type="tel" 
-                        name="phone" 
-                        value={formData.phone} 
-                        onChange={handleChange} 
-                        placeholder="Your contact number" 
-                        className="w-full" 
-                      />
+                      <Input type="tel" name="phone" value={formData.phone} onChange={handleChange} placeholder="Your contact number" className="w-full" />
                     </div>
                     
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Subject <span className="text-red-500">*</span>
                       </label>
-                      <Input 
-                        type="text" 
-                        name="subject" 
-                        value={formData.subject} 
-                        onChange={handleChange} 
-                        placeholder="How can we help you?" 
-                        className="w-full" 
-                        required 
-                      />
+                      <Input type="text" name="subject" value={formData.subject} onChange={handleChange} placeholder="How can we help you?" className="w-full" required />
                     </div>
                   </div>
                   
@@ -261,22 +212,10 @@ const Contact = () => {
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                       Message <span className="text-red-500">*</span>
                     </label>
-                    <Textarea 
-                      name="message" 
-                      value={formData.message} 
-                      onChange={handleChange} 
-                      placeholder="Please describe your inquiry..." 
-                      rows={5} 
-                      className="w-full" 
-                      required 
-                    />
+                    <Textarea name="message" value={formData.message} onChange={handleChange} placeholder="Please describe your inquiry..." rows={5} className="w-full" required />
                   </div>
                   
-                  <Button 
-                    type="submit" 
-                    disabled={isSubmitting} 
-                    className="w-full py-3 bg-synkris-green text-synkris-black font-medium rounded-lg hover:brightness-110 transition-all flex items-center justify-center"
-                  >
+                  <Button type="submit" disabled={isSubmitting} className="w-full py-3 bg-synkris-green text-synkris-black font-medium rounded-lg hover:brightness-110 transition-all flex items-center justify-center">
                     {isSubmitting ? <span>Sending...</span> : <>
                         <Send className="h-4 w-4 mr-2" />
                         <span>Send Message</span>
@@ -338,8 +277,6 @@ const Contact = () => {
       </main>
       
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default Contact;
