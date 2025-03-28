@@ -128,7 +128,7 @@ const Contact = () => {
                   <Phone className="w-5 h-5 text-synkris-green mt-1 flex-shrink-0" />
                   <div>
                     <h3 className="font-medium">Call Us</h3>
-                    <p className="text-gray-600 dark:text-gray-400">+91 9564034945</p>
+                    <p className="text-gray-600 dark:text-gray-400">+91 9564034845</p>
                   </div>
                 </div>
                 
