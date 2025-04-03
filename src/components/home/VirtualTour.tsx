@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Button } from '@/components/ui/button';
 
 const VirtualTour = () => {
   return (
@@ -23,9 +24,9 @@ const VirtualTour = () => {
             </video>
           </div>
           <div className="mt-6 flex justify-center">
-            <button className="bg-synkris-green text-black px-6 py-3 rounded-full font-medium hover:brightness-110 transition-all">
+            <Button className="bg-synkris-green text-black px-6 py-3 rounded-full font-medium hover:brightness-110 transition-all">
               Schedule a Visit
-            </button>
+            </Button>
           </div>
         </div>
       </div>
