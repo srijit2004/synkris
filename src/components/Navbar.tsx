@@ -153,6 +153,7 @@ interface NavLinksProps {
 const NavLinks = ({ desktop, onClick, handleNavLinkClick }: NavLinksProps) => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const isMobile = useIsMobile();
+  const location = useLocation();
 
   const toggleDropdown = (key: string) => {
     setActiveDropdown(activeDropdown === key ? null : key);
@@ -165,6 +166,7 @@ const NavLinks = ({ desktop, onClick, handleNavLinkClick }: NavLinksProps) => {
 
   const dropdowns = {
     solutions: [
+      { label: 'All Solutions', href: '/solutions' },
       { label: 'AI Demand Forecasting', href: '/solutions/forecasting' },
       { label: 'Order Management', href: '/solutions/order-management' },
       { label: 'Profitability Insights', href: '/solutions/insights' },
@@ -172,8 +174,8 @@ const NavLinks = ({ desktop, onClick, handleNavLinkClick }: NavLinksProps) => {
       { label: 'Procurement', href: '/solutions/procurement' }
     ],
     resources: [
-      { label: 'Case Studies', href: '/resources/case-studies' },
       { label: 'Blog', href: '/blog' },
+      { label: 'Case Studies', href: '/resources/case-studies' },
       { label: 'Documentation', href: '/docs' },
       { label: 'Support', href: '/support' }
     ]
@@ -181,6 +183,7 @@ const NavLinks = ({ desktop, onClick, handleNavLinkClick }: NavLinksProps) => {
 
   const NavDropdown = ({ title, items, id }: { title: string; items: { label: string; href: string; }[]; id: string; }) => {
     const isActive = activeDropdown === id;
+    const isCurrentPath = items.some(item => location.pathname.startsWith(item.href));
     
     return (
       <div className={desktop ? 'relative' : ''}>
@@ -189,7 +192,7 @@ const NavLinks = ({ desktop, onClick, handleNavLinkClick }: NavLinksProps) => {
           className={cn(
             "flex items-center space-x-1 text-synkris-black font-medium transition-colors", 
             desktop ? "hover:text-synkris-green" : "w-full justify-between text-lg py-2", 
-            isActive && "text-synkris-green"
+            (isActive || isCurrentPath) && "text-synkris-green"
           )}
         >
           <span>{title}</span>
@@ -212,7 +215,8 @@ const NavLinks = ({ desktop, onClick, handleNavLinkClick }: NavLinksProps) => {
                   to={item.href} 
                   className={cn(
                     "block transition-colors", 
-                    desktop ? "px-4 py-2 text-sm rounded-lg hover:bg-gray-50" : "py-3 text-base hover:text-synkris-green"
+                    desktop ? "px-4 py-2 text-sm rounded-lg hover:bg-gray-50" : "py-3 text-base hover:text-synkris-green",
+                    location.pathname === item.href && "text-synkris-green"
                   )} 
                   onClick={handleLinkClick}
                 >

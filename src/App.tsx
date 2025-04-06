@@ -11,6 +11,9 @@ import Debug from './pages/Debug';
 import NotFound from './pages/NotFound';
 import BrainDashboard from './pages/BrainDashboard';
 import Solutions from './pages/Solutions';
+import SolutionsLanding from './pages/SolutionsLanding';
+import Blog from './pages/Blog';
+import BlogPost from './pages/BlogPost';
 
 // Simple error fallback component
 const ErrorFallback = ({ error, resetErrorBoundary }: { error: Error; resetErrorBoundary: () => void }) => {
@@ -88,7 +91,10 @@ function App() {
                   <Route path="/enterprise" element={<Enterprise />} />
                   <Route path="/debug" element={<Debug />} />
                   <Route path="/brain-dashboard" element={<BrainDashboard />} />
+                  <Route path="/solutions" element={<SolutionsLanding />} />
                   <Route path="/solutions/*" element={<Solutions />} />
+                  <Route path="/blog" element={<Blog />} />
+                  <Route path="/blog/:id" element={<BlogPost />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Router>
