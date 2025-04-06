@@ -1,226 +1,327 @@
 
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowRight, Clock, BarChart3, TrendingUp } from 'lucide-react';
+import React from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-
-const caseStudies = [
-  {
-    id: 1,
-    title: "How FoodBox India Reduced Food Waste by 32% with Synkris AI",
-    client: "FoodBox India",
-    description: "A multi-brand cloud kitchen operator with 20+ kitchens across Delhi NCR struggled with inventory management and food wastage. See how Synkris transformed their operations.",
-    image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-    metrics: [
-      { icon: <Clock />, label: "Implementation Time", value: "4 weeks" },
-      { icon: <BarChart3 />, label: "Food Waste Reduction", value: "32%" },
-      { icon: <TrendingUp />, label: "Revenue Growth", value: "28%" }
-    ],
-    category: "AI & Analytics",
-    featured: true
-  },
-  {
-    id: 2,
-    title: "Flavor Fleet: Expanding from 2 to 12 Kitchens in 6 Months",
-    client: "Flavor Fleet",
-    description: "A regional food brand with ambitious expansion plans needed a scalable infrastructure. Learn how Synkris enabled their rapid growth across three cities.",
-    image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-    metrics: [
-      { icon: <Clock />, label: "Scale-up Time", value: "6 months" },
-      { icon: <BarChart3 />, label: "Kitchen Expansion", value: "500%" },
-      { icon: <TrendingUp />, label: "Order Volume Increase", value: "680%" }
-    ],
-    category: "Scaling & Growth",
-    featured: true
-  },
-  {
-    id: 3,
-    title: "Cloud Bites: Optimizing Menu Performance with Data-Driven Insights",
-    client: "Cloud Bites",
-    description: "A startup cloud kitchen with multiple cuisine offerings struggled with menu optimization. Discover how Synkris analytics transformed their menu strategy.",
-    image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-    metrics: [
-      { icon: <Clock />, label: "Analysis Period", value: "2 months" },
-      { icon: <BarChart3 />, label: "High-margin Items", value: "+45%" },
-      { icon: <TrendingUp />, label: "Profitability Increase", value: "37%" }
-    ],
-    category: "Menu Optimization",
-    featured: false
-  },
-  {
-    id: 4,
-    title: "SpiceSage: Streamlining Multi-Platform Order Management",
-    client: "SpiceSage",
-    description: "Managing orders across Zomato, Swiggy and their own platform created operational challenges. See how Synkris unified their order processing.",
-    image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-    metrics: [
-      { icon: <Clock />, label: "Order Processing Time", value: "-62%" },
-      { icon: <BarChart3 />, label: "Order Accuracy", value: "99.7%" },
-      { icon: <TrendingUp />, label: "Customer Satisfaction", value: "+41%" }
-    ],
-    category: "Order Management",
-    featured: false
-  },
-  {
-    id: 5,
-    title: "Fresh Fusion: Building a Pan-India Virtual Restaurant Brand",
-    client: "Fresh Fusion",
-    description: "A chef-entrepreneur with a unique concept needed infrastructure across multiple cities. Learn how Synkris helped launch a nationwide virtual brand.",
-    image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-    metrics: [
-      { icon: <Clock />, label: "Launch Time", value: "3 months" },
-      { icon: <BarChart3 />, label: "Cities Covered", value: "8" },
-      { icon: <TrendingUp />, label: "Monthly Orders", value: "18,500+" }
-    ],
-    category: "Brand Building",
-    featured: false
-  }
-];
-
-// Get all unique categories
-const categories = ["All", ...new Set(caseStudies.map(study => study.category))];
+import { Link } from 'react-router-dom';
+import { ArrowRight, ExternalLink, FileText, Star, BarChart, TrendingUp, AlertTriangle, Award } from 'lucide-react';
 
 const CaseStudies = () => {
-  const [activeCategory, setActiveCategory] = useState("All");
-  const [activeCase, setActiveCase] = useState(caseStudies[0]);
-  
-  const filteredStudies = activeCategory === "All" 
-    ? caseStudies 
-    : caseStudies.filter(study => study.category === activeCategory);
+  // Featured case studies
+  const featuredCaseStudies = [
+    {
+      id: 1,
+      title: "How FoodBox India Reduced Food Waste by 32%",
+      excerpt: "A cloud kitchen network with 15 locations across Bangalore used Synkris AI forecasting to dramatically reduce waste and improve profitability.",
+      image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+      logo: "https://images.unsplash.com/photo-1549924231-f129b911e442?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80",
+      company: "FoodBox India",
+      stats: [
+        { label: "Food Waste Reduction", value: "32%" },
+        { label: "Cost Savings", value: "₹2.4M/year" },
+        { label: "ROI", value: "430%" }
+      ]
+    },
+    {
+      id: 2,
+      title: "Spice Junction's Journey to 3x Order Volume",
+      excerpt: "How a single-location cloud kitchen scaled to 8 locations across Delhi NCR with centralized operations management.",
+      image: "https://images.unsplash.com/photo-1565299507177-b0ac66763828?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+      logo: "https://images.unsplash.com/photo-1576267423445-b2e0074d68a4?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80",
+      company: "Spice Junction",
+      stats: [
+        { label: "Order Volume Growth", value: "300%" },
+        { label: "Preparation Time", value: "-42%" },
+        { label: "Customer Satisfaction", value: "+28%" }
+      ]
+    },
+    {
+      id: 3,
+      title: "Urban Bites' Kitchen Efficiency Transformation",
+      excerpt: "Streamlining operations with integrated order management across multiple delivery platforms.",
+      image: "https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+      logo: "https://images.unsplash.com/photo-1572664270929-9a6da21854ba?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80",
+      company: "Urban Bites",
+      stats: [
+        { label: "Order Processing Time", value: "-58%" },
+        { label: "Error Reduction", value: "92%" },
+        { label: "Revenue Increase", value: "41%" }
+      ]
+    }
+  ];
+
+  // All case studies
+  const allCaseStudies = [
+    ...featuredCaseStudies,
+    {
+      id: 4,
+      title: "Fresh Plate's Ingredient Procurement Revolution",
+      excerpt: "How data-driven procurement helped this Mumbai-based cloud kitchen reduce costs while improving quality.",
+      image: "https://images.unsplash.com/photo-1506784926709-22f1ec395907?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+      logo: "https://images.unsplash.com/photo-1583394293214-28ded15ee548?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80",
+      company: "Fresh Plate",
+      stats: [
+        { label: "Procurement Costs", value: "-27%" },
+        { label: "Vendor Reduction", value: "65%" },
+        { label: "Quality Incidents", value: "-84%" }
+      ]
+    },
+    {
+      id: 5,
+      title: "Tasty Bowls' Multi-Brand Strategy Success",
+      excerpt: "Managing 6 different brands from a single kitchen to maximize revenue and efficiency.",
+      image: "https://images.unsplash.com/photo-1564419320461-6870880221ad?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+      logo: "https://images.unsplash.com/photo-1603366445787-09714680cbf1?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80",
+      company: "Tasty Bowls",
+      stats: [
+        { label: "Revenue Growth", value: "215%" },
+        { label: "Kitchen Utilization", value: "+78%" },
+        { label: "Profit Margin", value: "+18%" }
+      ]
+    },
+    {
+      id: 6,
+      title: "Cloud Curry's Delivery Optimization",
+      excerpt: "Reducing delivery times and improving customer satisfaction through integrated delivery management.",
+      image: "https://images.unsplash.com/photo-1565538810643-b5bdb714032a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+      logo: "https://images.unsplash.com/photo-1568626037131-8d8556d8f86e?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80",
+      company: "Cloud Curry",
+      stats: [
+        { label: "Delivery Time", value: "-34%" },
+        { label: "On-Time Rate", value: "98.5%" },
+        { label: "Repeat Orders", value: "+42%" }
+      ]
+    }
+  ];
 
   return (
-    <div className="min-h-screen flex flex-col bg-white dark:bg-synkris-black dark:text-white">
+    <div className="min-h-screen flex flex-col">
       <Navbar />
-      
-      <main className="flex-grow">
-        {/* Header */}
-        <section className="py-16 px-6 md:px-10 text-center bg-gray-50 dark:bg-synkris-dark-gray">
-          <div className="max-w-4xl mx-auto">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              Success <span className="text-synkris-green">Stories</span>
-            </h1>
-            <p className="text-lg text-gray-600 dark:text-gray-300">
-              See how Synkris has transformed cloud kitchen operations for businesses 
-              across India, driving growth and operational excellence
-            </p>
-          </div>
-        </section>
-        
-        {/* Featured Case Study */}
-        <section className="py-12 px-6 md:px-10 bg-white dark:bg-synkris-black">
-          <div className="max-w-6xl mx-auto">
-            <div className="glass-panel overflow-hidden">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div className="p-8 flex flex-col justify-center">
-                  <span className="bg-synkris-green/10 text-synkris-green px-3 py-1 rounded-full text-sm inline-block mb-4">
+      <main className="flex-1 py-16 px-4">
+        <div className="container mx-auto max-w-6xl">
+          <h1 className="text-3xl md:text-5xl font-bold mb-4 text-center">
+            Customer <span className="text-synkris-green">Success Stories</span>
+          </h1>
+          <p className="text-base md:text-lg text-gray-600 dark:text-gray-300 text-center max-w-3xl mx-auto mb-12">
+            Discover how cloud kitchens across India are transforming their operations and growing their businesses with Synkris
+          </p>
+
+          {/* Featured case study - highlight the top one */}
+          <div className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg mb-16">
+            <div className="grid grid-cols-1 lg:grid-cols-2">
+              <div className="p-8 lg:p-10 flex flex-col justify-center">
+                <div className="mb-6">
+                  <span className="bg-synkris-green/10 text-synkris-green px-3 py-1 rounded-full text-sm font-medium">
                     Featured Case Study
                   </span>
-                  <h2 className="text-3xl font-bold mb-3">{activeCase.title}</h2>
-                  <p className="text-lg font-medium mb-2">{activeCase.client}</p>
-                  <p className="text-gray-600 dark:text-gray-300 mb-6">
-                    {activeCase.description}
-                  </p>
-                  
-                  <div className="grid grid-cols-3 gap-4 mb-6">
-                    {activeCase.metrics.map((metric, index) => (
-                      <div key={index} className="text-center p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                        <div className="mb-2 inline-flex p-2 bg-synkris-green/10 rounded-full">
-                          {React.cloneElement(metric.icon, { 
-                            className: "h-5 w-5 text-synkris-green" 
-                          })}
-                        </div>
-                        <div className="text-2xl font-bold text-synkris-green">{metric.value}</div>
-                        <div className="text-xs text-gray-500 dark:text-gray-400">{metric.label}</div>
-                      </div>
-                    ))}
+                </div>
+                
+                <h2 className="text-2xl lg:text-3xl font-bold mb-4">
+                  {featuredCaseStudies[0].title}
+                </h2>
+                
+                <p className="text-gray-600 dark:text-gray-300 mb-6">
+                  {featuredCaseStudies[0].excerpt}
+                </p>
+                
+                <div className="grid grid-cols-3 gap-4 mb-6">
+                  {featuredCaseStudies[0].stats.map((stat, idx) => (
+                    <div key={idx} className="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg text-center">
+                      <div className="text-xl font-bold text-synkris-green">{stat.value}</div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400">{stat.label}</div>
+                    </div>
+                  ))}
+                </div>
+                
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <img 
+                      src={featuredCaseStudies[0].logo} 
+                      alt={featuredCaseStudies[0].company} 
+                      className="w-10 h-10 rounded-full mr-3 object-cover"
+                    />
+                    <span className="font-medium">{featuredCaseStudies[0].company}</span>
                   </div>
                   
                   <Link 
-                    to={`/case-studies/${activeCase.id}`}
-                    className="inline-flex items-center text-synkris-green font-medium group"
+                    to={`/resources/case-studies/${featuredCaseStudies[0].id}`} 
+                    className="cta-button-outline flex items-center"
                   >
-                    <span>Read Full Case Study</span>
-                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    Read Case Study
+                    <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </div>
-                
-                <div className="lg:h-[28rem] overflow-hidden">
+              </div>
+              
+              <div className="lg:h-full">
+                <img 
+                  src={featuredCaseStudies[0].image} 
+                  alt={featuredCaseStudies[0].title}
+                  className="w-full h-full object-cover object-center"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Results highlight section */}
+          <div className="text-center mb-16">
+            <h2 className="text-2xl md:text-3xl font-bold mb-8">
+              Real Results from Real Customers
+            </h2>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md">
+                <TrendingUp className="h-10 w-10 text-synkris-green mx-auto mb-4" />
+                <div className="text-3xl font-bold mb-2">38%</div>
+                <p className="text-gray-600 dark:text-gray-300">Average Revenue Growth</p>
+              </div>
+              
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md">
+                <AlertTriangle className="h-10 w-10 text-synkris-green mx-auto mb-4" />
+                <div className="text-3xl font-bold mb-2">27%</div>
+                <p className="text-gray-600 dark:text-gray-300">Food Waste Reduction</p>
+              </div>
+              
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md">
+                <BarChart className="h-10 w-10 text-synkris-green mx-auto mb-4" />
+                <div className="text-3xl font-bold mb-2">93%</div>
+                <p className="text-gray-600 dark:text-gray-300">Forecast Accuracy</p>
+              </div>
+              
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md">
+                <Star className="h-10 w-10 text-synkris-green mx-auto mb-4" />
+                <div className="text-3xl font-bold mb-2">4.8</div>
+                <p className="text-gray-600 dark:text-gray-300">Customer Satisfaction</p>
+              </div>
+            </div>
+          </div>
+
+          {/* All case studies */}
+          <h2 className="text-2xl md:text-3xl font-bold mb-8">
+            Explore All Case Studies
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            {allCaseStudies.slice(1).map((study) => (
+              <div key={study.id} className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow flex flex-col">
+                <div className="aspect-video">
                   <img 
-                    src={activeCase.image} 
-                    alt={activeCase.title}
+                    src={study.image} 
+                    alt={study.title} 
                     className="w-full h-full object-cover"
                   />
+                </div>
+                
+                <div className="p-6 flex flex-col flex-1">
+                  <h3 className="text-xl font-bold mb-3">{study.title}</h3>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 flex-1">{study.excerpt}</p>
+                  
+                  <div className="flex items-center justify-between mt-auto">
+                    <div className="flex items-center">
+                      <img 
+                        src={study.logo} 
+                        alt={study.company} 
+                        className="w-8 h-8 rounded-full mr-2 object-cover"
+                      />
+                      <span className="text-sm font-medium">{study.company}</span>
+                    </div>
+                    
+                    <Link 
+                      to={`/resources/case-studies/${study.id}`} 
+                      className="text-synkris-green font-medium flex items-center hover:brightness-110 transition-all"
+                    >
+                      <span>Read More</span>
+                      <ArrowRight className="h-4 w-4 ml-1" />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Industry filter section */}
+          <div className="bg-gray-50 dark:bg-gray-900 rounded-2xl p-8 mb-16">
+            <h2 className="text-2xl font-bold mb-6">Browse by Industry</h2>
+            <div className="flex flex-wrap gap-4">
+              <button className="px-5 py-2 bg-synkris-green text-white rounded-full hover:brightness-110 transition">All Industries</button>
+              <button className="px-5 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition">Multi-brand Kitchens</button>
+              <button className="px-5 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition">Specialty Cuisines</button>
+              <button className="px-5 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition">Quick Service</button>
+              <button className="px-5 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition">Premium & Gourmet</button>
+              <button className="px-5 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition">Home Chefs</button>
+            </div>
+          </div>
+
+          {/* Testimonials section */}
+          <div className="mb-16">
+            <h2 className="text-2xl md:text-3xl font-bold mb-8 text-center">
+              What Our Customers Say
+            </h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md relative">
+                <div className="text-synkris-green text-5xl font-serif absolute top-4 left-6">"</div>
+                <div className="pt-6 pl-6">
+                  <p className="text-gray-600 dark:text-gray-300 mb-6">
+                    Synkris has revolutionized how we manage our cloud kitchen operations. The AI forecasting is like having a crystal ball for our business. We've cut waste by almost a third and our profit margins have never been better.
+                  </p>
+                  <div className="flex items-center">
+                    <img 
+                      src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80"
+                      alt="Rajiv Sharma"
+                      className="w-12 h-12 rounded-full mr-4 object-cover"
+                    />
+                    <div>
+                      <div className="font-medium">Rajiv Sharma</div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">CEO, FoodBox India</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md relative">
+                <div className="text-synkris-green text-5xl font-serif absolute top-4 left-6">"</div>
+                <div className="pt-6 pl-6">
+                  <p className="text-gray-600 dark:text-gray-300 mb-6">
+                    The order management system alone was worth the investment. We went from juggling multiple tablets and devices to a single, unified dashboard. Our kitchen efficiency improved dramatically, and customer complaints about wrong orders dropped to near zero.
+                  </p>
+                  <div className="flex items-center">
+                    <img 
+                      src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80"
+                      alt="Priya Malhotra"
+                      className="w-12 h-12 rounded-full mr-4 object-cover"
+                    />
+                    <div>
+                      <div className="font-medium">Priya Malhotra</div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">Operations Head, Urban Bites</div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </section>
-        
-        {/* Category Filter */}
-        <section className="py-8 px-6 md:px-10">
-          <div className="max-w-6xl mx-auto">
-            <div className="flex flex-wrap gap-3 justify-center mb-8">
-              {categories.map((category, index) => (
-                <button
-                  key={index}
-                  onClick={() => setActiveCategory(category)}
-                  className={`px-4 py-2 rounded-full text-sm transition-colors ${
-                    activeCategory === category
-                      ? "bg-synkris-green text-synkris-black font-medium"
-                      : "bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700"
-                  }`}
-                >
-                  {category}
-                </button>
-              ))}
+
+          {/* CTA section */}
+          <div className="bg-synkris-green/10 rounded-2xl p-8 md:p-12 text-center">
+            <div className="max-w-3xl mx-auto">
+              <Award className="h-12 w-12 mx-auto mb-6 text-synkris-green" />
+              <h2 className="text-2xl md:text-3xl font-bold mb-4">
+                Ready to write your own success story?
+              </h2>
+              <p className="text-gray-600 dark:text-gray-300 mb-8">
+                Join the growing community of cloud kitchens that are transforming their operations with Synkris. Schedule a demo today to see how our platform can help you achieve similar results.
+              </p>
+              <div className="flex flex-col sm:flex-row justify-center gap-4">
+                <Link to="/demo" className="cta-button">
+                  Request Demo
+                </Link>
+                <Link to="/contact" className="cta-button-outline">
+                  Contact Sales
+                </Link>
+              </div>
             </div>
           </div>
-        </section>
-        
-        {/* Case Studies Grid */}
-        <section className="py-8 px-6 md:px-10 mb-12">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredStudies.map((study) => (
-                <div 
-                  key={study.id}
-                  className="glass-panel overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
-                  onClick={() => setActiveCase(study)}
-                >
-                  <div className="h-48 overflow-hidden">
-                    <img 
-                      src={study.image} 
-                      alt={study.title}
-                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-                  
-                  <div className="p-6">
-                    <span className="bg-synkris-green/10 text-synkris-green px-2 py-1 rounded-full text-xs">
-                      {study.category}
-                    </span>
-                    
-                    <h3 className="text-xl font-bold mt-3 mb-2 line-clamp-2">
-                      {study.title}
-                    </h3>
-                    
-                    <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-2">
-                      {study.description}
-                    </p>
-                    
-                    <div className="flex items-center">
-                      <span className="mr-2 font-medium">{study.client}</span>
-                      <ArrowRight className="h-4 w-4 text-synkris-green" />
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        </div>
       </main>
-      
       <Footer />
     </div>
   );

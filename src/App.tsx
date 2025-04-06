@@ -14,6 +14,9 @@ import Solutions from './pages/Solutions';
 import SolutionsLanding from './pages/SolutionsLanding';
 import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
+import Documentation from './pages/Documentation';
+import Support from './pages/Support';
+import CaseStudies from './pages/CaseStudies';
 
 // Simple error fallback component
 const ErrorFallback = ({ error, resetErrorBoundary }: { error: Error; resetErrorBoundary: () => void }) => {
@@ -95,6 +98,9 @@ function App() {
                   <Route path="/solutions/*" element={<Solutions />} />
                   <Route path="/blog" element={<Blog />} />
                   <Route path="/blog/:id" element={<BlogPost />} />
+                  <Route path="/docs" element={<Documentation />} />
+                  <Route path="/support" element={<Support />} />
+                  <Route path="/resources/case-studies" element={<CaseStudies />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Router>
