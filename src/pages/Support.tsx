@@ -1,9 +1,8 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import { Mail, MessageCircle, Phone, Clock, HelpCircle, FileText, ExternalLink } from 'lucide-react';
+import { Mail, MessageCircle, Phone, Clock, HelpCircle, FileText, ExternalLink, ArrowRight } from 'lucide-react';
 
 const Support = () => {
   // Common questions for the FAQ section
