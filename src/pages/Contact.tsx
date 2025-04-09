@@ -8,10 +8,9 @@ import { Textarea } from "@/components/ui/textarea";
 import emailjs from "@emailjs/browser";
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+
 const Contact = () => {
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     fullName: "",
@@ -20,16 +19,12 @@ const Contact = () => {
     subject: "",
     message: ""
   });
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const {
-      name,
-      value
-    } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -42,7 +37,9 @@ const Contact = () => {
       });
       return;
     }
+    
     setIsSubmitting(true);
+    
     try {
       // Configure EmailJS with the service and template IDs
       const templateParams = {
@@ -54,16 +51,15 @@ const Contact = () => {
         to_email: "info.synkris@gmail.com"
       };
 
-      // Send email using EmailJS with your public key
-      await emailjs.send("service_synkris",
-      // Use your EmailJS service ID
-      "template_synkris",
-      // Use your EmailJS template ID
-      templateParams, "0-cRGh0QYH2tdp9z1" // Your provided EmailJS public key
+      // Send email using EmailJS
+      const response = await emailjs.send(
+        "service_synkris", // Use your EmailJS service ID
+        "template_synkris", // Use your EmailJS template ID
+        templateParams, 
+        "0-cRGh0QYH2tdp9z1" // Your provided EmailJS public key
       );
 
-      // Console log for debugging
-      console.log("Contact form submitted:", formData);
+      console.log("Email sent successfully:", response);
 
       // Show success message
       toast({
@@ -90,6 +86,7 @@ const Contact = () => {
       setIsSubmitting(false);
     }
   };
+
   return <div className="min-h-screen bg-white dark:bg-synkris-black dark:text-white flex flex-col">
       <Navbar />
       
@@ -279,4 +276,5 @@ const Contact = () => {
       <Footer />
     </div>;
 };
+
 export default Contact;

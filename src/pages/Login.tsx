@@ -1,8 +1,9 @@
 
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/lib/supabase";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -11,12 +12,13 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   
   // Admin credentials
   const ADMIN_EMAIL = "admin@synkris.com";
   const ADMIN_PASSWORD = "synkris@admin2025";
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!email || !password) {
@@ -30,10 +32,7 @@ const Login = () => {
     
     setIsLoading(true);
     
-    // Simulate login process
-    setTimeout(() => {
-      setIsLoading(false);
-      
+    try {
       // Check if admin credentials
       if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
         // Admin login
@@ -42,19 +41,51 @@ const Login = () => {
           description: "Welcome to the Synkris Admin Panel!",
         });
         
+        // Store admin session info in localStorage
+        if (rememberMe) {
+          localStorage.setItem('adminLoggedIn', 'true');
+        }
+        
         // Navigate to admin dashboard
         navigate("/admin/dashboard");
-      } else {
-        // Regular user login
-        toast({
-          title: "Login successful",
-          description: "Welcome back to Synkris!",
-        });
-        
-        // Navigate to user dashboard
-        navigate("/dashboard");
+        return;
       }
-    }, 1500);
+      
+      // Try Supabase auth for regular users
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      
+      if (error) {
+        console.error("Login error:", error);
+        toast({
+          title: "Login failed",
+          description: error.message || "Please check your credentials and try again",
+          variant: "destructive",
+        });
+        return;
+      }
+      
+      // Regular user login success
+      toast({
+        title: "Login successful",
+        description: "Welcome back to Synkris!",
+      });
+      
+      // Navigate to user dashboard
+      navigate("/dashboard");
+      
+    } catch (error) {
+      console.error("Login process error:", error);
+      toast({
+        title: "Login failed",
+        description: "An unexpected error occurred. Please try again later.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -105,14 +136,27 @@ const Login = () => {
                     Forgot password?
                   </Link>
                 </div>
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-1 focus:ring-synkris-green focus:border-synkris-green"
-                  placeholder="••••••••"
-                  required
-                />
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-1 focus:ring-synkris-green focus:border-synkris-green pr-10"
+                    placeholder="••••••••"
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-5 w-5" />
+                    ) : (
+                      <Eye className="h-5 w-5" />
+                    )}
+                  </button>
+                </div>
               </div>
               
               <div className="flex items-center">
@@ -134,7 +178,10 @@ const Login = () => {
                 className="w-full py-3 font-medium rounded-lg bg-synkris-green text-synkris-black hover:brightness-110 transition-all flex items-center justify-center"
               >
                 {isLoading ? (
-                  <span>Logging in...</span>
+                  <div className="flex items-center">
+                    <div className="w-5 h-5 border-2 border-t-transparent border-white rounded-full animate-spin mr-2"></div>
+                    <span>Logging in...</span>
+                  </div>
                 ) : (
                   <span>Log in</span>
                 )}

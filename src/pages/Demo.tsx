@@ -1,14 +1,18 @@
 
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Check, AlertCircle, Send, Mail } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { supabase } from "@/lib/supabase";
+import emailjs from "@emailjs/browser";
 
 const Demo = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
+  const formRef = useRef<HTMLFormElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     fullName: "",
@@ -40,18 +44,42 @@ const Demo = () => {
     setIsSubmitting(true);
     
     try {
-      // This would typically be a backend API call to send the email
-      // For now, we'll simulate a successful submission
+      // 1. Store the demo request in Supabase
+      const { data: demoData, error: demoError } = await supabase
+        .from('demo_requests')
+        .insert([
+          { 
+            full_name: formData.fullName,
+            business_name: formData.businessName,
+            email: formData.email,
+            phone: formData.phone,
+            city: formData.city,
+            message: formData.message,
+            status: 'new'
+          }
+        ]);
       
-      // Simulating API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      if (demoError) {
+        console.error("Error saving demo request:", demoError);
+        // Continue with email even if database save fails
+      }
       
-      // In a real implementation, form would be submitted to info.synkris@gmail.com
+      // 2. Send email notification using EmailJS
+      if (formRef.current) {
+        await emailjs.sendForm(
+          'service_synkris',
+          'template_synkris',
+          formRef.current,
+          '0-cRGh0QYH2tdp9z1'
+        );
+      }
+      
+      // Log success info
       console.log("Demo request submitted to info.synkris@gmail.com:", formData);
       
       // Show success message
       toast({
-        title: "Request Submitted!",
+        title: "Demo Request Submitted!",
         description: "We'll contact you shortly to schedule your demo.",
       });
       
@@ -64,6 +92,12 @@ const Demo = () => {
         city: "",
         message: "",
       });
+      
+      // Redirect to thank you page after short delay
+      setTimeout(() => {
+        navigate('/');
+      }, 2000);
+      
     } catch (error) {
       console.error("Error submitting form:", error);
       toast({
@@ -98,7 +132,10 @@ const Demo = () => {
           </div>
           
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
+              {/* Hidden fields for EmailJS */}
+              <input type="hidden" name="to_email" value="info.synkris@gmail.com" />
+              
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -200,7 +237,10 @@ const Demo = () => {
                 className="w-full py-3 bg-synkris-green text-synkris-black font-medium rounded-lg hover:brightness-110 transition-all flex items-center justify-center"
               >
                 {isSubmitting ? (
-                  <span>Submitting...</span>
+                  <div className="flex items-center">
+                    <div className="w-5 h-5 border-2 border-t-transparent border-synkris-black rounded-full animate-spin mr-2"></div>
+                    <span>Submitting...</span>
+                  </div>
                 ) : (
                   <>
                     <Send className="h-4 w-4 mr-2" />
