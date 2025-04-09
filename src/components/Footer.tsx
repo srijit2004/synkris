@@ -47,8 +47,8 @@ const Footer = () => {
               <FooterLink href="/about">About Us</FooterLink>
               <FooterLink href="/careers">Careers</FooterLink>
               <FooterLink href="/blog">Blog</FooterLink>
-              <FooterLink href="/investors">Investors</FooterLink>
               <FooterLink href="/contact">Contact</FooterLink>
+              <FooterLink href="/demo">Request Demo</FooterLink>
             </ul>
           </div>
 

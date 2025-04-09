@@ -102,7 +102,7 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Mobile menu - improved for better touchability and spacing */}
+      {/* Mobile menu */}
       <div 
         className={cn(
           'fixed inset-0 bg-white z-40 pt-16 pb-8 px-6 md:hidden overflow-y-auto transition-transform duration-300 ease-in-out', 
@@ -233,24 +233,32 @@ const NavLinks = ({ desktop, onClick, handleNavLinkClick }: NavLinksProps) => {
   return (
     <>
       <NavDropdown title="Solutions" items={dropdowns.solutions} id="solutions" />
-      <button 
-        onClick={() => handleNavLinkClick('services')} 
+      <Link
+        to="/#services"
         className={cn(
           "text-synkris-black font-medium hover:text-synkris-green transition-colors text-left",
           !desktop && "text-lg py-2"
         )}
+        onClick={() => {
+          handleNavLinkClick('services');
+          handleLinkClick();
+        }}
       >
         Services
-      </button>
-      <button 
-        onClick={() => handleNavLinkClick('pricing')} 
+      </Link>
+      <Link
+        to="/#pricing"
         className={cn(
           "text-synkris-black font-medium hover:text-synkris-green transition-colors text-left",
           !desktop && "text-lg py-2"
         )}
+        onClick={() => {
+          handleNavLinkClick('pricing');
+          handleLinkClick();
+        }}
       >
         Pricing
-      </button>
+      </Link>
       <NavDropdown title="Resources" items={dropdowns.resources} id="resources" />
     </>
   );

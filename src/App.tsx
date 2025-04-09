@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from '@/components/theme-provider';
@@ -17,6 +18,12 @@ import BlogPost from './pages/BlogPost';
 import Documentation from './pages/Documentation';
 import Support from './pages/Support';
 import CaseStudies from './pages/CaseStudies';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminCustomers from './pages/admin/Customers';
+import AdminSubscriptions from './pages/admin/Subscriptions';
+import AdminReports from './pages/admin/Reports';
+import AdminLocations from './pages/admin/Locations';
+import AdminForms from './pages/admin/Forms';
 
 // Simple error fallback component
 const ErrorFallback = ({ error, resetErrorBoundary }: { error: Error; resetErrorBoundary: () => void }) => {
@@ -101,6 +108,15 @@ function App() {
                   <Route path="/docs" element={<Documentation />} />
                   <Route path="/support" element={<Support />} />
                   <Route path="/resources/case-studies" element={<CaseStudies />} />
+                  
+                  {/* Admin routes */}
+                  <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                  <Route path="/admin/customers" element={<AdminCustomers />} />
+                  <Route path="/admin/subscriptions" element={<AdminSubscriptions />} />
+                  <Route path="/admin/reports" element={<AdminReports />} />
+                  <Route path="/admin/locations" element={<AdminLocations />} />
+                  <Route path="/admin/forms" element={<AdminForms />} />
+                  
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Router>
