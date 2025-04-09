@@ -100,7 +100,6 @@ try {
     console.log('Rendering app into root...');
     
     root.render(
-      // Temporarily remove StrictMode to reduce complexity while debugging
       <App />
     );
     

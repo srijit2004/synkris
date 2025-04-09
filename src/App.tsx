@@ -24,6 +24,7 @@ import AdminSubscriptions from './pages/admin/Subscriptions';
 import AdminReports from './pages/admin/Reports';
 import AdminLocations from './pages/admin/Locations';
 import AdminForms from './pages/admin/Forms';
+import { Toaster } from "@/components/ui/toaster";
 
 // Simple error fallback component
 const ErrorFallback = ({ error, resetErrorBoundary }: { error: Error; resetErrorBoundary: () => void }) => {
@@ -87,44 +88,47 @@ function App() {
   console.log('App component rendering');
   
   return (
-    <AppErrorBoundary>
-      <QueryClientProvider client={queryClient}>
-        <ThemeProvider defaultTheme="light" attribute="class">
-          <div className="app-container min-h-screen">
-            <React.Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
-              <Router>
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/demo" element={<Demo />} />
-                  <Route path="/contact" element={<Contact />} />
-                  <Route path="/enterprise" element={<Enterprise />} />
-                  <Route path="/debug" element={<Debug />} />
-                  <Route path="/brain-dashboard" element={<BrainDashboard />} />
-                  <Route path="/solutions" element={<SolutionsLanding />} />
-                  <Route path="/solutions/*" element={<Solutions />} />
-                  <Route path="/blog" element={<Blog />} />
-                  <Route path="/blog/:id" element={<BlogPost />} />
-                  <Route path="/docs" element={<Documentation />} />
-                  <Route path="/support" element={<Support />} />
-                  <Route path="/resources/case-studies" element={<CaseStudies />} />
-                  
-                  {/* Admin routes */}
-                  <Route path="/admin/dashboard" element={<AdminDashboard />} />
-                  <Route path="/admin/customers" element={<AdminCustomers />} />
-                  <Route path="/admin/subscriptions" element={<AdminSubscriptions />} />
-                  <Route path="/admin/reports" element={<AdminReports />} />
-                  <Route path="/admin/locations" element={<AdminLocations />} />
-                  <Route path="/admin/forms" element={<AdminForms />} />
-                  
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </Router>
-            </React.Suspense>
-          </div>
-        </ThemeProvider>
-      </QueryClientProvider>
-    </AppErrorBoundary>
+    <React.StrictMode>
+      <AppErrorBoundary>
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider defaultTheme="light" attribute="class">
+            <div className="app-container min-h-screen">
+              <React.Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+                <Router>
+                  <Routes>
+                    <Route path="/" element={<Index />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/demo" element={<Demo />} />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="/enterprise" element={<Enterprise />} />
+                    <Route path="/debug" element={<Debug />} />
+                    <Route path="/brain-dashboard" element={<BrainDashboard />} />
+                    <Route path="/solutions" element={<SolutionsLanding />} />
+                    <Route path="/solutions/*" element={<Solutions />} />
+                    <Route path="/blog" element={<Blog />} />
+                    <Route path="/blog/:id" element={<BlogPost />} />
+                    <Route path="/docs" element={<Documentation />} />
+                    <Route path="/support" element={<Support />} />
+                    <Route path="/resources/case-studies" element={<CaseStudies />} />
+                    
+                    {/* Admin routes */}
+                    <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                    <Route path="/admin/customers" element={<AdminCustomers />} />
+                    <Route path="/admin/subscriptions" element={<AdminSubscriptions />} />
+                    <Route path="/admin/reports" element={<AdminReports />} />
+                    <Route path="/admin/locations" element={<AdminLocations />} />
+                    <Route path="/admin/forms" element={<AdminForms />} />
+                    
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </Router>
+              </React.Suspense>
+            </div>
+            <Toaster />
+          </ThemeProvider>
+        </QueryClientProvider>
+      </AppErrorBoundary>
+    </React.StrictMode>
   );
 }
 
