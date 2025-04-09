@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ExternalLink, Twitter, Linkedin, Instagram, Github } from 'lucide-react';
+import { ExternalLink, Twitter, Linkedin, Instagram, Github, PhoneCall, Mail, MapPin } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -21,6 +21,22 @@ const Footer = () => {
               India's first end-to-end cloud kitchen operations provider, 
               empowering food brands to scale effortlessly with AI-driven insights.
             </p>
+            
+            <div className="flex flex-col space-y-3 mb-6">
+              <a href="tel:+919876543210" className="text-gray-400 hover:text-synkris-green transition-colors flex items-center gap-2">
+                <PhoneCall size={16} />
+                <span>+91 98765 43210</span>
+              </a>
+              <a href="mailto:contact@synkris.com" className="text-gray-400 hover:text-synkris-green transition-colors flex items-center gap-2">
+                <Mail size={16} />
+                <span>contact@synkris.com</span>
+              </a>
+              <div className="text-gray-400 flex items-center gap-2">
+                <MapPin size={16} />
+                <span>123 Tech Park, Bengaluru, Karnataka 560001</span>
+              </div>
+            </div>
+            
             <div className="flex space-x-4">
               <SocialLink href="https://twitter.com" icon={<Twitter size={18} />} />
               <SocialLink href="https://linkedin.com" icon={<Linkedin size={18} />} />
@@ -31,7 +47,7 @@ const Footer = () => {
 
           {/* Quick links */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Platform</h3>
+            <h3 className="text-lg font-semibold mb-4 text-synkris-green">Platform</h3>
             <ul className="space-y-3">
               <FooterLink href="/solutions/forecasting">AI Forecasting</FooterLink>
               <FooterLink href="/solutions/order-management">Order Management</FooterLink>
@@ -42,7 +58,7 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold mb-4">Company</h3>
+            <h3 className="text-lg font-semibold mb-4 text-synkris-green">Company</h3>
             <ul className="space-y-3">
               <FooterLink href="/about">About Us</FooterLink>
               <FooterLink href="/careers">Careers</FooterLink>
@@ -53,7 +69,7 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold mb-4">Resources</h3>
+            <h3 className="text-lg font-semibold mb-4 text-synkris-green">Resources</h3>
             <ul className="space-y-3">
               <FooterLink href="/docs">Documentation</FooterLink>
               <FooterLink href="/support">Support</FooterLink>
@@ -64,7 +80,28 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-gray-800 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center">
+        {/* Newsletter */}
+        <div className="border-t border-gray-800 mt-16 pt-10 mb-8">
+          <div className="max-w-md mx-auto lg:mx-0">
+            <h3 className="text-lg font-semibold mb-3">Subscribe to our newsletter</h3>
+            <p className="text-gray-400 text-sm mb-4">Stay updated with the latest in cloud kitchen technology and trends</p>
+            <form className="flex gap-2">
+              <input 
+                type="email" 
+                placeholder="Enter your email" 
+                className="bg-white/5 border border-gray-700 rounded-lg px-4 py-2 text-white flex-1 focus:outline-none focus:border-synkris-green"
+              />
+              <button 
+                type="submit"
+                className="bg-synkris-green text-black px-4 py-2 rounded-lg font-medium hover:brightness-110 transition-all"
+              >
+                Subscribe
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div className="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400 text-sm mb-4 md:mb-0">
             © {currentYear} Synkris Technologies. All rights reserved.
           </p>

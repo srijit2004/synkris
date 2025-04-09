@@ -1,8 +1,11 @@
 
-import React from 'react';
+import React, { Suspense } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from '@/components/theme-provider';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Toaster } from "@/components/ui/toaster";
+
+// Pages
 import Index from './pages/Index';
 import Login from './pages/Login';
 import Demo from './pages/Demo';
@@ -18,13 +21,24 @@ import BlogPost from './pages/BlogPost';
 import Documentation from './pages/Documentation';
 import Support from './pages/Support';
 import CaseStudies from './pages/CaseStudies';
+
+// Admin pages
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminCustomers from './pages/admin/Customers';
 import AdminSubscriptions from './pages/admin/Subscriptions';
 import AdminReports from './pages/admin/Reports';
 import AdminLocations from './pages/admin/Locations';
 import AdminForms from './pages/admin/Forms';
-import { Toaster } from "@/components/ui/toaster";
+
+// Simple loading component
+const PageLoader = () => (
+  <div className="min-h-screen flex items-center justify-center">
+    <div className="flex flex-col items-center">
+      <div className="w-16 h-16 border-4 border-synkris-green/30 border-t-synkris-green rounded-full animate-spin"></div>
+      <p className="mt-4 text-lg">Loading...</p>
+    </div>
+  </div>
+);
 
 // Simple error fallback component
 const ErrorFallback = ({ error, resetErrorBoundary }: { error: Error; resetErrorBoundary: () => void }) => {
@@ -74,12 +88,13 @@ class AppErrorBoundary extends React.Component<{children: React.ReactNode}, {has
   }
 }
 
-// Create a QueryClient instance
+// Create a QueryClient instance with better error handling
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: 1,
       refetchOnWindowFocus: false,
+      staleTime: 5 * 60 * 1000, // 5 minutes
     },
   },
 });
@@ -93,7 +108,7 @@ function App() {
         <QueryClientProvider client={queryClient}>
           <ThemeProvider defaultTheme="light" attribute="class">
             <div className="app-container min-h-screen">
-              <React.Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+              <Suspense fallback={<PageLoader />}>
                 <Router>
                   <Routes>
                     <Route path="/" element={<Index />} />
@@ -122,7 +137,7 @@ function App() {
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </Router>
-              </React.Suspense>
+              </Suspense>
             </div>
             <Toaster />
           </ThemeProvider>
