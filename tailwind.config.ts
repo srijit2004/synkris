@@ -110,6 +110,10 @@ export default {
 				float: {
 					'0%, 100%': { transform: 'translateY(0)' },
 					'50%': { transform: 'translateY(-10px)' }
+				},
+				'gradient-x': {
+					'0%, 100%': { 'background-position': '0% 50%' },
+					'50%': { 'background-position': '100% 50%' }
 				}
 			},
 			animation: {
@@ -120,7 +124,8 @@ export default {
 				'slide-up': 'slide-up 0.5s ease-out forwards',
 				'slide-down': 'slide-down 0.5s ease-out forwards',
 				'pulse-green': 'pulse-green 2s infinite',
-				'float': 'float 6s ease-in-out infinite'
+				'float': 'float 6s ease-in-out infinite',
+				'gradient-x': 'gradient-x 3s ease infinite'
 			}
 		}
 	},
