@@ -175,7 +175,7 @@
   }
 
   .feature-card {
-    @apply glass-panel-premium p-6 sm:p-8 transition-all duration-500 hover:translate-y-[-8px] group cursor-pointer;
+    @apply glass-panel-premium p-6 sm:p-8 transition-all duration-500 hover:translate-y-[-8px] cursor-pointer;
   }
   
   .feature-card:hover {
@@ -185,8 +185,7 @@
   
   .feature-card-icon {
     @apply w-12 h-12 rounded-xl mb-4 flex items-center justify-center
-    bg-gradient-to-br from-primary/10 to-primary/5 group-hover:from-primary/20 group-hover:to-primary/10
-    transition-all duration-500 group-hover:scale-110 group-hover:rotate-3;
+    bg-gradient-to-br from-primary/10 to-primary/5 transition-all duration-500;
   }
   
   /* Interactive button with hover effect */
