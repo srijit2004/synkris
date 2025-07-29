@@ -78,6 +78,11 @@ export default {
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
 			},
+			boxShadow: {
+				'elegant': '0 10px 30px -10px hsl(var(--primary) / 0.3)',
+				'glow': '0 0 40px hsl(var(--primary) / 0.4)',
+				'soft': '0 2px 10px hsl(220 13% 9% / 0.1)'
+			},
 			keyframes: {
 				'accordion-down': {
 					from: { height: '0' },
