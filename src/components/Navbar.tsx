@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, X, ChevronDown, Sparkles } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 const Navbar = () => {
@@ -30,25 +30,19 @@ const Navbar = () => {
       setTimeout(() => {
         const element = document.querySelector(location.hash);
         if (element) {
-          element.scrollIntoView({
-            behavior: 'smooth'
-          });
+          element.scrollIntoView({ behavior: 'smooth' });
         }
       }, 100);
     }
   }, [location]);
 
   useEffect(() => {
-    // Prevent body scroll when mobile menu is open
     if (isOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
     }
-    
-    return () => {
-      document.body.style.overflow = '';
-    };
+    return () => { document.body.style.overflow = ''; };
   }, [isOpen]);
 
   const toggleMenu = () => setIsOpen(!isOpen);
@@ -57,44 +51,48 @@ const Navbar = () => {
     setIsOpen(false);
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({
-        behavior: 'smooth'
-      });
+      element.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
   return (
     <header 
       className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-4 sm:px-6 md:px-10 py-3', 
-        scrolled ? 'bg-white/95 backdrop-blur-md shadow-md' : 'bg-transparent'
+        'fixed top-0 left-0 right-0 z-50 transition-all duration-500 px-4 sm:px-6 md:px-10',
+        scrolled 
+          ? 'py-2 bg-background/80 backdrop-blur-xl shadow-[0_1px_0_0_hsl(var(--border)/0.5)] border-b border-border/30' 
+          : 'py-4 bg-transparent'
       )}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <Link to="/" className="flex items-center space-x-2 z-50" onClick={() => setIsOpen(false)}>
-          <span className="text-synkris-black font-bold py-0 my-0 mx-0 px-0 text-2xl sm:text-3xl md:text-4xl">
-            Syn<span className="text-synkris-green">kris</span>
+          <span className={cn(
+            "font-bold py-0 my-0 mx-0 px-0 text-2xl sm:text-3xl md:text-4xl transition-all duration-300",
+            scrolled ? "text-foreground" : "text-foreground"
+          )}>
+            Syn<span className="text-primary">kris</span>
           </span>
         </Link>
 
-        <nav className="hidden md:flex items-center space-x-8">
+        <nav className="hidden md:flex items-center space-x-1">
           <NavLinks desktop={true} handleNavLinkClick={handleNavLinkClick} />
         </nav>
 
-        <div className="hidden md:flex items-center space-x-4">
-          <Link to="/contact" className="text-synkris-black font-medium hover:text-synkris-green transition-colors">
-            Contact Us
+        <div className="hidden md:flex items-center space-x-3">
+          <Link to="/contact" className="text-foreground/70 font-medium hover:text-primary transition-colors px-3 py-2 rounded-lg hover:bg-primary/5">
+            Contact
           </Link>
-          <Link to="/login" className="text-synkris-black font-medium hover:text-synkris-green transition-colors">
+          <Link to="/login" className="text-foreground/70 font-medium hover:text-primary transition-colors px-3 py-2 rounded-lg hover:bg-primary/5">
             Login
           </Link>
-          <Link to="/demo" className="cta-button">
+          <Link to="/demo" className="cta-button text-sm flex items-center gap-2">
+            <Sparkles className="h-4 w-4" />
             Request Demo
           </Link>
         </div>
 
         <button 
-          className="md:hidden text-synkris-black z-50" 
+          className="md:hidden text-foreground z-50 p-2 rounded-lg hover:bg-primary/5 transition-colors" 
           onClick={toggleMenu} 
           aria-label="Toggle menu"
         >
@@ -105,36 +103,37 @@ const Navbar = () => {
       {/* Mobile menu */}
       <div 
         className={cn(
-          'fixed inset-0 bg-white z-40 pt-16 pb-8 px-6 md:hidden overflow-y-auto transition-transform duration-300 ease-in-out', 
-          isOpen ? 'translate-x-0' : 'translate-x-full'
+          'fixed inset-0 bg-background/95 backdrop-blur-2xl z-40 pt-20 pb-8 px-6 md:hidden overflow-y-auto transition-all duration-500 ease-out', 
+          isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'
         )}
       >
-        <nav className="flex flex-col space-y-5 pt-4">
+        <nav className="flex flex-col space-y-2 pt-4">
           <NavLinks 
             desktop={false} 
             onClick={() => setIsOpen(false)} 
             handleNavLinkClick={handleNavLinkClick} 
           />
-          <div className="flex flex-col space-y-4 pt-6 border-t border-gray-100">
+          <div className="flex flex-col space-y-3 pt-6 border-t border-border/50 mt-4">
             <Link 
               to="/contact" 
-              className="text-synkris-black text-lg font-medium hover:text-synkris-green transition-colors py-2" 
+              className="text-foreground text-lg font-medium hover:text-primary transition-colors py-3 px-4 rounded-xl hover:bg-primary/5" 
               onClick={() => setIsOpen(false)}
             >
               Contact Us
             </Link>
             <Link 
               to="/login" 
-              className="text-synkris-black text-lg font-medium hover:text-synkris-green transition-colors py-2" 
+              className="text-foreground text-lg font-medium hover:text-primary transition-colors py-3 px-4 rounded-xl hover:bg-primary/5" 
               onClick={() => setIsOpen(false)}
             >
               Login
             </Link>
             <Link 
               to="/demo" 
-              className="cta-button text-center py-4 mt-2 text-lg" 
+              className="cta-button text-center py-4 mt-2 text-lg flex items-center justify-center gap-2" 
               onClick={() => setIsOpen(false)}
             >
+              <Sparkles className="h-5 w-5" />
               Request Demo
             </Link>
           </div>
@@ -152,7 +151,6 @@ interface NavLinksProps {
 
 const NavLinks = ({ desktop, onClick, handleNavLinkClick }: NavLinksProps) => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const isMobile = useIsMobile();
   const location = useLocation();
 
   const toggleDropdown = (key: string) => {
@@ -190,21 +188,24 @@ const NavLinks = ({ desktop, onClick, handleNavLinkClick }: NavLinksProps) => {
         <button 
           onClick={() => toggleDropdown(id)} 
           className={cn(
-            "flex items-center space-x-1 text-synkris-black font-medium transition-colors", 
-            desktop ? "hover:text-synkris-green" : "w-full justify-between text-lg py-2", 
-            (isActive || isCurrentPath) && "text-synkris-green"
+            "flex items-center space-x-1 font-medium transition-all duration-200", 
+            desktop 
+              ? "hover:text-primary px-3 py-2 rounded-lg hover:bg-primary/5 text-foreground/70" 
+              : "w-full justify-between text-lg py-3 px-4 rounded-xl hover:bg-primary/5 text-foreground", 
+            (isActive || isCurrentPath) && "text-primary"
           )}
         >
           <span>{title}</span>
-          <ChevronDown className={cn("h-4 w-4 transition-transform", isActive && "rotate-180")} />
+          <ChevronDown className={cn("h-4 w-4 transition-transform duration-200", isActive && "rotate-180")} />
         </button>
         
         <div 
           className={cn(
             desktop ? 
-              "absolute left-0 mt-2 w-64 origin-top-left bg-white rounded-xl shadow-lg ring-1 ring-black/5 z-50" : 
-              "mt-2 space-y-1 pl-4", 
-            desktop && !isActive && "hidden"
+              "absolute left-0 mt-2 w-64 origin-top-left bg-background/95 backdrop-blur-xl rounded-xl shadow-xl ring-1 ring-border/50 z-50 border border-border/30 transition-all duration-200" : 
+              "mt-1 space-y-1 pl-4", 
+            desktop && !isActive && "hidden",
+            desktop && isActive && "animate-fade-in"
           )}
         >
           {!desktop || isActive ? (
@@ -214,9 +215,11 @@ const NavLinks = ({ desktop, onClick, handleNavLinkClick }: NavLinksProps) => {
                   key={idx} 
                   to={item.href} 
                   className={cn(
-                    "block transition-colors", 
-                    desktop ? "px-4 py-2 text-sm rounded-lg hover:bg-gray-50" : "py-3 text-base hover:text-synkris-green",
-                    location.pathname === item.href && "text-synkris-green"
+                    "block transition-all duration-200", 
+                    desktop 
+                      ? "px-4 py-2.5 text-sm rounded-lg hover:bg-primary/5 text-foreground/70 hover:text-primary" 
+                      : "py-3 px-4 text-base hover:text-primary rounded-lg hover:bg-primary/5",
+                    location.pathname === item.href && "text-primary bg-primary/5"
                   )} 
                   onClick={handleLinkClick}
                 >
@@ -236,8 +239,10 @@ const NavLinks = ({ desktop, onClick, handleNavLinkClick }: NavLinksProps) => {
       <Link
         to="/#services"
         className={cn(
-          "text-synkris-black font-medium hover:text-synkris-green transition-colors text-left",
-          !desktop && "text-lg py-2"
+          "font-medium hover:text-primary transition-all duration-200 text-left",
+          desktop 
+            ? "px-3 py-2 rounded-lg hover:bg-primary/5 text-foreground/70" 
+            : "text-lg py-3 px-4 rounded-xl hover:bg-primary/5 text-foreground"
         )}
         onClick={() => {
           handleNavLinkClick('services');
@@ -249,8 +254,10 @@ const NavLinks = ({ desktop, onClick, handleNavLinkClick }: NavLinksProps) => {
       <Link
         to="/#pricing"
         className={cn(
-          "text-synkris-black font-medium hover:text-synkris-green transition-colors text-left",
-          !desktop && "text-lg py-2"
+          "font-medium hover:text-primary transition-all duration-200 text-left",
+          desktop 
+            ? "px-3 py-2 rounded-lg hover:bg-primary/5 text-foreground/70" 
+            : "text-lg py-3 px-4 rounded-xl hover:bg-primary/5 text-foreground"
         )}
         onClick={() => {
           handleNavLinkClick('pricing');
